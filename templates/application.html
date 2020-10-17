@@ -37,7 +37,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <%= linkTo(usersProfileUserEmailPath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Name %><% } %>
+            <%= linkTo(usersProfilePath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Name %><% } %>
           </li>
           <li class="nav-item">
             <%= linkTo(authLogoutPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign Out<% } %>

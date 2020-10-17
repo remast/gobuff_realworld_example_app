@@ -1,6 +1,6 @@
 # This is a multi-stage Dockerfile and requires >= Docker 17.05
 # https://docs.docker.com/engine/userguide/eng-image/multistage-build/
-FROM gobuffalo/buffalo:v0.14.4 as builder
+FROM gobuffalo/buffalo:v0.16.15 as builder
 
 RUN mkdir -p $GOPATH/src/gobuff_realworld_example_app
 WORKDIR $GOPATH/src/gobuff_realworld_example_app
@@ -26,6 +26,5 @@ ENV ADDR=0.0.0.0
 
 EXPOSE 3000
 
-# Uncomment to run the migrations before running the binary:
-# CMD /bin/app migrate; /bin/app
-CMD exec /bin/app
+# Run the migrations before running the binary:
+CMD /bin/app migrate; /bin/app
