@@ -34,11 +34,11 @@
                 <i class="ion-heart"></i> 29
               </button>
             </div>
-            <a href="" class="preview-link">
+            <%= linkTo(articlePath({slug: article.Slug}), {class:"preview-link"}){ %>
               <h1><%= article.Title %></h1>
               <p><%= article.Description %></p>
               <span>Read more...</span>
-            </a>
+            <% } %>
           </div>
   
         <% } %>
