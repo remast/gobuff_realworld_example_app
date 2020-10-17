@@ -8,7 +8,7 @@
                   <%= linkTo(authLoginPath()){ %>Have an account?<% } %>
                 </p>
 
-              <%= form_for(user, {action: usersPath()}) { %>
+              <%= form_for(user, {action: usersRegisterPath(), method: "POST"}) { %>
 
               <%= f.InputTag("Name", {placeholder: "Your Name", class: "form-control-lg" }) %>
               <%= f.InputTag("Email", {placeholder: "Email", class: "form-control-lg" }) %>

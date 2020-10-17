@@ -78,7 +78,8 @@ func App() *buffalo.App {
 		//Routes for User registration
 		users := app.Group("/users")
 		users.GET("/register", UsersRegister)
-		users.POST("/", UsersCreate)
+		users.GET("/profile/{user_email}", UsersProfile)
+		users.POST("/register", UsersCreate)
 		users.Middleware.Remove(Authorize)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory

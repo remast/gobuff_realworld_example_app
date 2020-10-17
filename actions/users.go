@@ -15,6 +15,12 @@ func UsersRegister(c buffalo.Context) error {
 	return c.Render(200, r.HTML("users/register.html"))
 }
 
+//UsersProfile renders the user profile
+func UsersProfile(c buffalo.Context) error {
+	c.Logger().Error(c.Param("user_email"))
+	return c.Render(200, r.HTML("users/profile.html"))
+}
+
 // UsersCreate registers a new user with the application.
 func UsersCreate(c buffalo.Context) error {
 	u := &models.User{}
