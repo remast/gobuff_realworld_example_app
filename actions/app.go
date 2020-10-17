@@ -82,6 +82,12 @@ func App() *buffalo.App {
 		users.POST("/register", UsersCreate)
 		users.Middleware.Remove(Authorize)
 
+		// Routes for Articles
+		articles := app.Group("/articles")
+		articles.GET("/{slug}", ArticlesRead)
+		articles.GET("/new", ArticlesNew)
+		articles.POST("/new", ArticlesCreate)
+
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 

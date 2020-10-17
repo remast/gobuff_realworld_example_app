@@ -19,6 +19,7 @@ require (
 	github.com/gobuffalo/validate v2.0.4+incompatible
 	github.com/gobuffalo/validate/v3 v3.3.0 // indirect
 	github.com/gofrs/uuid v3.3.0+incompatible
+	github.com/gosimple/slug v1.9.0
 	github.com/karrick/godirwalk v1.16.1 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
 	github.com/markbates/grift v1.5.0

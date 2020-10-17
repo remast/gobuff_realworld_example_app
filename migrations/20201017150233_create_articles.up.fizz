@@ -1,0 +1,11 @@
+create_table("articles") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("title", "string", {"null": false})
+	t.Column("slug", "string", {"null": false})
+	t.Column("description", "string", {"null": false})
+	t.Column("body", "text", {"null": false})
+	t.Column("user_id", "uuid", {"null": false})
+	t.Timestamps()
+}
+
+add_index("articles", "slug", {"unique": true})
