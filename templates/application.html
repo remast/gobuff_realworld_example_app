@@ -37,13 +37,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <%= linkTo(usersProfileUserEmailPath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Email %><% } %>
+            <%= linkTo(usersProfileUserEmailPath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Name %><% } %>
           </li>
-          <!--
           <li class="nav-item">
             <%= linkTo(authLogoutPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign Out<% } %>
           </li>
-          -->
           <% } else { %>
           <li class="nav-item">
               <%= linkTo(authLoginPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign In<% } %>

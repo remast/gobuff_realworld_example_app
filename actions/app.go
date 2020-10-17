@@ -84,9 +84,9 @@ func App() *buffalo.App {
 
 		// Routes for Articles
 		articles := app.Group("/articles")
-		articles.GET("/{slug}", ArticlesRead)
-		articles.GET("/new", ArticlesNew)
 		articles.POST("/new", ArticlesCreate)
+		articles.GET("/new", ArticlesNew)
+		articles.GET("/{slug}", ArticlesRead)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
