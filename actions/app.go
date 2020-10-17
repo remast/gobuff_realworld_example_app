@@ -61,6 +61,25 @@ func App() *buffalo.App {
 
 		app.GET("/", HomeHandler)
 
+		//AuthMiddlewares
+		app.Use(SetCurrentUser)
+		app.Use(Authorize)
+
+		//Routes for Auth
+		auth := app.Group("/auth")
+		auth.GET("/", AuthLanding)
+		auth.GET("/new", AuthNew)
+		auth.POST("/", AuthCreate)
+		auth.DELETE("/", AuthDestroy)
+		auth.GET("/logout", AuthDestroy)
+		auth.Middleware.Skip(Authorize, AuthLanding, AuthNew, AuthCreate)
+
+		//Routes for User registration
+		users := app.Group("/users")
+		users.GET("/new", UsersNew)
+		users.POST("/", UsersCreate)
+		users.Middleware.Remove(Authorize)
+
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}
 
