@@ -17,7 +17,25 @@ func UsersRegister(c buffalo.Context) error {
 
 //UsersProfile renders the user profile
 func UsersProfile(c buffalo.Context) error {
-	c.Logger().Error(c.Param("user_email"))
+	email := c.Param("user_email")
+
+	u := []models.User{}
+	tx := c.Value("tx").(*pop.Connection)
+	tx.Where("email = ?", email).All(&u)
+
+	// user not found so redirect to home
+	if len(u) == 0 {
+		return c.Redirect(302, "/")
+	}
+
+	user := u[0]
+	c.Set("profile_user", user)
+
+	a := []models.Article{}
+	tx.Where("user_id = ?", user.ID).Order("created_at desc").Limit(10).Eager().All(&a)
+
+	c.Set("articles", a)
+
 	return c.Render(200, r.HTML("users/profile.html"))
 }
 
