@@ -87,6 +87,7 @@ func App() *buffalo.App {
 		articles.POST("/new", ArticlesCreate)
 		articles.GET("/new", ArticlesNew)
 		articles.GET("/{slug}", ArticlesRead)
+		articles.POST("/{slug}/comment", ArticlesComment)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}

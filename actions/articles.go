@@ -26,7 +26,25 @@ func ArticlesRead(c buffalo.Context) error {
 
 	c.Set("article", a[0])
 
+	comment := models.Comment{}
+	c.Set("comment", comment)
+
 	return c.Render(200, r.HTML("articles/read.html"))
+}
+
+//ArticlesComment renders the article
+func ArticlesComment(c buffalo.Context) error {
+	u := c.Value("current_user").(*models.User)
+	slug := c.Param("slug")
+
+	comment := &models.Comment{}
+	comment.UserID = u.ID
+
+	if err := c.Bind(comment); err != nil {
+		return errors.WithStack(err)
+	}
+
+	return c.Redirect(302, fmt.Sprintf("/articles/%v", slug))
 }
 
 //ArticlesNew renders the articles form
