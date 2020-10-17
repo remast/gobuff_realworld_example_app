@@ -1,0 +1,21 @@
+<div class="auth-page">
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">Sign in</h1>
+        <p class="text-xs-center">
+          <%= linkTo(usersRegisterPath()){ %>Need an account?<% } %>
+        </p>
+
+        <%= form_for(user, {action: authPath()}) { %>
+          <%= f.InputTag("Email", {class:"form-control-lg", placeholder: "Email"}) %>
+          <%= f.InputTag("Password", {type: "password", class:"form-control-lg", placeholder: "Password"}) %>
+          <button class="btn btn-success">Sign In!</button>
+        <% } %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

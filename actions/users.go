@@ -8,11 +8,11 @@ import (
 	"github.com/pkg/errors"
 )
 
-//UsersNew renders the users form
-func UsersNew(c buffalo.Context) error {
+//UsersRegister renders the users form
+func UsersRegister(c buffalo.Context) error {
 	u := models.User{}
 	c.Set("user", u)
-	return c.Render(200, r.HTML("users/new.plush.html"))
+	return c.Render(200, r.HTML("users/register.html"))
 }
 
 // UsersCreate registers a new user with the application.
@@ -31,7 +31,7 @@ func UsersCreate(c buffalo.Context) error {
 	if verrs.HasAny() {
 		c.Set("user", u)
 		c.Set("errors", verrs)
-		return c.Render(200, r.HTML("users/new.plush.html"))
+		return c.Render(200, r.HTML("users/register.html"))
 	}
 
 	c.Session().Set("current_user_id", u.ID)

@@ -19,10 +19,10 @@ func AuthLanding(c buffalo.Context) error {
 	return c.Render(200, r.HTML("auth/landing.plush.html"))
 }
 
-// AuthNew loads the signin page
-func AuthNew(c buffalo.Context) error {
+// AuthLogin loads the signin page
+func AuthLogin(c buffalo.Context) error {
 	c.Set("user", models.User{})
-	return c.Render(200, r.HTML("auth/new.plush.html"))
+	return c.Render(200, r.HTML("auth/login.html"))
 }
 
 // AuthCreate attempts to log the user in with an existing account.
@@ -45,7 +45,7 @@ func AuthCreate(c buffalo.Context) error {
 		c.Set("errors", verrs)
 		c.Set("user", u)
 
-		return c.Render(http.StatusUnauthorized, r.HTML("auth/new.plush.html"))
+		return c.Render(http.StatusUnauthorized, r.HTML("auth/login.html"))
 	}
 
 	if err != nil {
@@ -72,8 +72,8 @@ func AuthCreate(c buffalo.Context) error {
 	return c.Redirect(302, redirectURL)
 }
 
-// AuthDestroy clears the session and logs a user out
-func AuthDestroy(c buffalo.Context) error {
+// AuthLogout clears the session and logs a user out
+func AuthLogout(c buffalo.Context) error {
 	c.Session().Clear()
 	c.Flash().Add("success", "You have been logged out!")
 	return c.Redirect(302, "/")
