@@ -45,6 +45,12 @@ func (a *Article) Create(tx *pop.Connection) (*validate.Errors, error) {
 	return tx.ValidateAndCreate(a)
 }
 
+// Update an article with slug
+func (a *Article) Update(tx *pop.Connection) (*validate.Errors, error) {
+	a.Slug = slug.Make(a.Title)
+	return tx.ValidateAndUpdate(a)
+}
+
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
 // This method is not required and may be deleted.
 func (a *Article) Validate(tx *pop.Connection) (*validate.Errors, error) {

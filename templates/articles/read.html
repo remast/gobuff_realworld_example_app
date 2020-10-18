@@ -11,17 +11,31 @@
             <a href="" class="author"><%= article.User.Name %></a>
             <span class="date"><%= article.CreatedAt %></span>
           </div>
-          <button class="btn btn-sm btn-outline-secondary">
+          <%= if (current_user && current_user.ID.String() == article.User.ID.String()) { %>
+          <a href="<%= editArticlePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-secondary">
+            <i class="ion-edit"></i>
+            &nbsp;
+            Edit Article
+          </a>
+          &nbsp;&nbsp;
+          <a href="<%= articleDeletePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-danger">
+            <i class="ion-trash-a"></i>
+            &nbsp;
+            Delete Article
+          </a>
+          <% } else { %>
+          <a href="" class="btn btn-sm btn-outline-secondary">
             <i class="ion-plus-round"></i>
             &nbsp;
             Follow <%= article.User.Name %> <span class="counter">(10)</span>
-          </button>
+          </a>
           &nbsp;&nbsp;
-          <button class="btn btn-sm btn-outline-primary">
+          <a href="" class="btn btn-sm btn-outline-primary">
             <i class="ion-heart"></i>
             &nbsp;
             Favorite Post <span class="counter">(29)</span>
-          </button>
+          </a>
+          <% } %>
         </div>
   
       </div>
@@ -45,17 +59,32 @@
             <span class="date"><%= article.User.CreatedAt %></span>
           </div>
   
-          <button class="btn btn-sm btn-outline-secondary">
-            <i class="ion-plus-round"></i>
-            &nbsp;
-            Follow <%= article.User.Name %> <span class="counter">(10)</span>
-          </button>
-          &nbsp;
-          <button class="btn btn-sm btn-outline-primary">
-            <i class="ion-heart"></i>
-            &nbsp;
-            Favorite Post <span class="counter">(29)</span>
-          </button>
+          <%= if (current_user && current_user.ID.String() == article.User.ID.String()) { %>
+            <a href="<%= editArticlePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-secondary">
+              <i class="ion-edit"></i>
+              &nbsp;
+              Edit Article
+            </a>
+            &nbsp;&nbsp;
+            <a href="<%= articleDeletePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-danger">
+              <i class="ion-trash-a"></i>
+              &nbsp;
+              Delete Article
+            </a>
+            <% } else { %>
+            <a href="" class="btn btn-sm btn-outline-secondary">
+              <i class="ion-plus-round"></i>
+              &nbsp;
+              Follow <%= article.User.Name %> <span class="counter">(10)</span>
+            </a>
+            &nbsp;&nbsp;
+            <a href="" class="btn btn-sm btn-outline-primary">
+              <i class="ion-heart"></i>
+              &nbsp;
+              Favorite Post <span class="counter">(29)</span>
+            </a>
+            <% } %>
+
         </div>
       </div>
   
