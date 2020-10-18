@@ -1,0 +1,8 @@
+create_table("article_favorites") {
+	t.Column("article_id", "uuid", {"null": false})
+	t.Column("user_id", "uuid", {"null": false})
+	t.DisableTimestamps()
+	t.PrimaryKey("article_id", "user_id")
+}
+
+add_index("article_favorites", "article_id")
