@@ -12,6 +12,7 @@ import (
 // Comment is used by pop to map your comments database table to your go code.
 type Comment struct {
 	ID        uuid.UUID `json:"id" db:"id"`
+	Body      string    `json:"body" db:"body"`
 	User      User      `belongs_to:"user"`
 	UserID    uuid.UUID `db:"user_id"`
 	Article   Article   `belongs_to:"article"`
@@ -33,6 +34,11 @@ type Comments []Comment
 func (c Comments) String() string {
 	jc, _ := json.Marshal(c)
 	return string(jc)
+}
+
+// Create a comment
+func (c *Comment) Create(tx *pop.Connection) (*validate.Errors, error) {
+	return tx.ValidateAndCreate(c)
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.
