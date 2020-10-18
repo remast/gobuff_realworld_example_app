@@ -12,7 +12,13 @@ import (
 func HomeHandler(c buffalo.Context) error {
 	a := []models.Article{}
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Order("created_at desc").Eager().Limit(10).All(&a)
+
+	q := tx.PaginateFromParams(c.Params())
+	q.Order("created_at desc").Eager().All(&a)
+
+	c.Set("paginator", q.Paginator)
+
+	c.Logger().Error(q.Paginator.String())
 
 	// article not found so redirect to home
 	if len(a) == 0 {

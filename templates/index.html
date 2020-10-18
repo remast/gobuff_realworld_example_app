@@ -42,7 +42,17 @@
           </div>
   
         <% } %>
-
+        
+        <nav>
+          <ul class="pagination">
+            <%= for (p) in until(paginator.TotalPages) { %>
+              <% let pageIndex = p+1 %> 
+              <li data-test="page-link-<%= pageIndex %>" class="page-item <%= if (paginator.Page == pageIndex) { %>active<% } %>">
+                <a href="/?page=<%= pageIndex %>" class="page-link"><%= pageIndex %></a>
+              </li>
+            <% } %>
+          </ul>
+        </nav>
 
       </div>
 
