@@ -1,0 +1,10 @@
+create_table("comments") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("body", "text", {"null": false})
+	t.Column("article_id", "uuid", {"null": false})
+	t.Column("user_id", "uuid", {"null": false})
+	t.Timestamps()
+}
+
+add_index("comments", "article_id", {"unique": false})
+add_index("comments", "user_id", {"unique": false})
