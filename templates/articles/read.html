@@ -9,7 +9,7 @@
           <a href=""><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
           <div class="info">
             <a href="" class="author"><%= article.User.Name %></a>
-            <span class="date">January 20th</span>
+            <span class="date"><%= article.CreatedAt %></span>
           </div>
           <button class="btn btn-sm btn-outline-secondary">
             <i class="ion-plus-round"></i>
@@ -41,14 +41,14 @@
         <div class="article-meta">
           <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
           <div class="info">
-            <a href="" class="author">Eric Simons</a>
-            <span class="date">January 20th</span>
+            <a href="" class="author"><%= article.User.Name %></a>
+            <span class="date"><%= article.User.CreatedAt %></span>
           </div>
   
           <button class="btn btn-sm btn-outline-secondary">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons <span class="counter">(10)</span>
+            Follow <%= article.User.Name %> <span class="counter">(10)</span>
           </button>
           &nbsp;
           <button class="btn btn-sm btn-outline-primary">
