@@ -45,7 +45,7 @@
                   <span class="date"><%= article.CreatedAt %></span>
                 </div>
                 <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i class="ion-heart"></i> 29
+                  <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
                 </button>
               </div>
               <%= linkTo(articlePath({slug: article.Slug}), {class:"preview-link"}){ %>

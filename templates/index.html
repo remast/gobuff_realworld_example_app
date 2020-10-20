@@ -25,19 +25,19 @@
         <%= for (index, article) in articles { %>
           <div class="article-preview">
             <div class="article-meta">
-              <%= linkTo(usersProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
+              <%= linkTo(usersProfilePath({user_email: "article.User.Email"})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
               <div class="info">
-                <%= linkTo(usersProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
+                <%= linkTo(usersProfilePath({user_email: "article.User.Email"}), {class: "author"}){ %><%= article.User.Name %><% } %>
                 <span class="date"><%= article.CreatedAt %></span>
               </div>
-              <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                <i class="ion-heart"></i> 29
-              </button>
+              <a href="#" class="btn btn-outline-primary btn-sm pull-xs-right">
+                <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
+              </a>
             </div>
             <%= linkTo(articlePath({slug: article.Slug}), {class:"preview-link"}){ %>
               <h1><%= article.Title %></h1>
               <p><%= article.Description %></p>
-              <span>Read more...</span>
+              <span>Read more... <%= article.UserID %></span>
             <% } %>
           </div>
   
