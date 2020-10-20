@@ -10,6 +10,7 @@ import (
 
 // ArticleFavorite is used by pop to map your article_favorites database table to your go code.
 type ArticleFavorite struct {
+	ID        uuid.UUID `json:"id" db:"id"`
 	User      User      `belongs_to:"user"`
 	UserID    uuid.UUID `db:"user_id"`
 	Article   Article   `belongs_to:"article"`
@@ -29,6 +30,11 @@ type ArticleFavorites []ArticleFavorite
 func (a ArticleFavorites) String() string {
 	ja, _ := json.Marshal(a)
 	return string(ja)
+}
+
+// Create an article with slug
+func (a *ArticleFavorite) Create(tx *pop.Connection) (*validate.Errors, error) {
+	return tx.ValidateAndCreate(a)
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.

@@ -31,6 +31,7 @@ If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you 
 ## Running the tests
 
 	buffalo test --force-migrations
+	buffalo test models -m "ArticleFavorite" --force-migrations
 
 # How it works
 

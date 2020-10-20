@@ -1,7 +1,10 @@
 package models
 
-import "testing"
+func (ms *ModelSuite) Test_Article() {
+	ms.LoadFixture("basics")
 
-func Test_Article(t *testing.T) {
-	t.Fatal("This test needs to be implemented!")
+	u := &User{}
+	ms.DB.Where("email = ?", "sarah@sample.de").First(u)
+
+	ms.Failf("BAM", "UID: %v", u)
 }
