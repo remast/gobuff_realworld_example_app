@@ -25,6 +25,7 @@ func HomeHandler(c buffalo.Context) error {
 		return c.Redirect(302, "/")
 	}
 
+	c.Set("source_page", c.Request().URL)
 	c.Set("articles", a)
 
 	return c.Render(200, r.HTML("index.html"))

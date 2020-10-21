@@ -1,7 +1,7 @@
 package models
 
 func (ms *ModelSuite) Test_ArticleFavorite() {
-	// Arrage
+	// Arrange
 	ms.LoadFixture("basics")
 
 	article := &Article{}
@@ -14,10 +14,11 @@ func (ms *ModelSuite) Test_ArticleFavorite() {
 
 	// Act
 	verrs, err := articleFavorite.Create(ms.DB)
+
+	// Assert
 	ms.NoError(err)
 	ms.False(verrs.HasAny())
 
-	// Assert
 	articleWithFav := &Article{}
 	ms.DB.Eager("ArticleFavorites").Find(articleWithFav, article.ID)
 	ms.Equal(1, len(articleWithFav.ArticleFavorites))

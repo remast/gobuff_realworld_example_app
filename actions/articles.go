@@ -112,8 +112,6 @@ func ArticlesStar(c buffalo.Context) error {
 		return errors.WithStack(err)
 	}
 
-	c.Logger().Errorf("KKKKKKKKKKKKKKKKKKKKKKKKKKKKK %v Found: %v", articleID, found)
-
 	if found {
 		articleFavorite = &models.ArticleFavorite{}
 		tx.Where("user_id = ? and article_id = ?", userID, articleID).First(articleFavorite)
@@ -133,7 +131,8 @@ func ArticlesStar(c buffalo.Context) error {
 		}
 	}
 
-	return c.Redirect(302, "/")
+	sourcePage := c.Request().Form.Get("SourcePage")
+	return c.Redirect(302, sourcePage)
 }
 
 // ArticlesEdit renders the edit article form

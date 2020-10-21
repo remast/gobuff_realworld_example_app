@@ -29,6 +29,7 @@ func UsersProfile(c buffalo.Context) error {
 	}
 
 	user := u[0]
+	c.Set("source_page", c.Request().URL)
 	c.Set("profile_user", user)
 
 	a := []models.Article{}
