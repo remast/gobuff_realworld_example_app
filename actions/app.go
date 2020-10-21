@@ -82,6 +82,9 @@ func App() *buffalo.App {
 		users.POST("/register", UsersCreate)
 		users.Middleware.Remove(Authorize)
 
+		// Routes for Following
+		app.POST("/follow", UsersFollow)
+
 		// Routes for Articles
 		articles := app.Group("/articles")
 		articles.POST("/new", ArticlesCreate)

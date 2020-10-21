@@ -5,6 +5,7 @@ import (
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v5"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -65,6 +66,41 @@ func UsersCreate(c buffalo.Context) error {
 	c.Flash().Add("success", "Welcome to Buffalo!")
 
 	return c.Redirect(302, "/")
+}
+
+// UsersFollow creates a follow relation
+func UsersFollow(c buffalo.Context) error {
+	userID := c.Value("current_user").(*models.User).ID
+	followID := uuid.FromStringOrNil(c.Request().Form.Get("FollowID"))
+
+	follow := &models.Follow{}
+	tx := c.Value("tx").(*pop.Connection)
+	found, err := tx.Where("user_id = ? and follow_id = ?", userID, followID).Exists(follow)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	if found {
+		follow = &models.Follow{}
+		tx.Where("user_id = ? and follow_id = ?", userID, followID).First(follow)
+		err = tx.Destroy(follow)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+	} else {
+		follow = &models.Follow{
+			UserID:   userID,
+			FollowID: followID,
+		}
+
+		_, err := follow.Create(tx)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+	}
+
+	sourcePage := c.Request().Form.Get("SourcePage")
+	return c.Redirect(302, sourcePage)
 }
 
 // SetCurrentUser attempts to find a user based on the current_user_id
