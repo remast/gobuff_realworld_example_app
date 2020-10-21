@@ -6,6 +6,7 @@ func (ms *ModelSuite) Test_User_Create() {
 	ms.Equal(0, count)
 
 	u := &User{
+		Name:                 "Mark Example",
 		Email:                "mark@example.com",
 		Password:             "password",
 		PasswordConfirmation: "password",

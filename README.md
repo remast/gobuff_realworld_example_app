@@ -28,6 +28,11 @@ For more information on how to this works with other frontends/backends, head ov
 
 If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you should see the home page.
 
+## Running the tests
+
+	buffalo test --force-migrations
+	buffalo test models -m "ArticleFavorite" --force-migrations
+
 # How it works
 
 [Buffalo](http://gobuffalo.io) web application with server side rendering, server side user session and PostgreSQL database.

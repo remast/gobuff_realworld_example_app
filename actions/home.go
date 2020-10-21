@@ -14,7 +14,7 @@ func HomeHandler(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 
 	q := tx.PaginateFromParams(c.Params())
-	q.Order("created_at desc").Eager().All(&a)
+	q.Order("created_at desc").Eager("User").Eager("ArticleFavorites").All(&a)
 
 	c.Set("paginator", q.Paginator)
 
@@ -25,8 +25,7 @@ func HomeHandler(c buffalo.Context) error {
 		return c.Redirect(302, "/")
 	}
 
-	c.Logger().Error(a[0].User)
-
+	c.Set("source_page", c.Request().URL)
 	c.Set("articles", a)
 
 	return c.Render(200, r.HTML("index.html"))

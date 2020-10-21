@@ -1,0 +1,26 @@
+[[scenario]]
+name = "basics"
+
+  [[scenario.table]]
+    name = "users"
+
+    [[scenario.table.row]]
+      id = "<%= uuidNamed("user") %>"
+      name = "Sarah Sample"
+      email = "sarah@sample.de"
+      password_hash = "$2a$10$DxUw36aEz9nLI.iWFqOqEu50uJJDrqp1V/K866cWm2KxEGE/Plrpq"
+      created_at = "<%= now() %>"
+      updated_at = "<%= now() %>"
+  
+  [[scenario.table]]
+    name = "articles"
+
+    [[scenario.table.row]]
+      id = "<%= uuidNamed("article") %>"
+      user_id = "<%= uuidNamed("user") %>"
+      title = "Sarah Super Title"
+      slug = "sarah-super-slug"
+		  description = "Some super Description"
+		  body = "Some Sara story Body"
+      created_at = "<%= now() %>"
+      updated_at = "<%= now() %>"

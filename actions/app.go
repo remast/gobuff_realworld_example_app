@@ -90,6 +90,7 @@ func App() *buffalo.App {
 		articles.GET("/{slug}/delete", ArticlesDelete)
 		articles.GET("/{slug}/edit", ArticlesEdit)
 		articles.PUT("/{slug}/edit", ArticlesUpdate)
+		articles.POST("/star", ArticlesStar)
 		articles.GET("/{slug}", ArticlesRead)
 		articles.Middleware.Skip(Authorize, ArticlesRead)
 

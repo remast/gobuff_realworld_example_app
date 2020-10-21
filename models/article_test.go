@@ -1,7 +1,25 @@
 package models
 
-import "testing"
+func (ms *ModelSuite) Test_Article() {
+	// Arrange
+	ms.LoadFixture("basics")
 
-func Test_Article(t *testing.T) {
-	t.Fatal("This test needs to be implemented!")
+	u := &User{}
+	ms.DB.Where("email = ?", "sarah@sample.de").First(u)
+
+	countBefore, _ := ms.DB.Count(&Article{})
+
+	article := &Article{
+		UserID: u.ID,
+	}
+
+	// Act
+	verrs, err := article.Create(ms.DB)
+
+	// Assert
+	ms.NoError(err)
+	ms.False(verrs.HasAny())
+
+	countAfter, _ := ms.DB.Count(&Article{})
+	ms.Equal(countBefore+1, countAfter)
 }

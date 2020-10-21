@@ -6,6 +6,7 @@ import (
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v5"
+	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 )
 
@@ -97,6 +98,41 @@ func ArticlesNew(c buffalo.Context) error {
 	a := models.Article{}
 	c.Set("article", a)
 	return c.Render(200, r.HTML("articles/new.html"))
+}
+
+// ArticlesStar stars an article
+func ArticlesStar(c buffalo.Context) error {
+	userID := c.Value("current_user").(*models.User).ID
+	articleID := uuid.FromStringOrNil(c.Request().Form.Get("ArticleID"))
+
+	articleFavorite := &models.ArticleFavorite{}
+	tx := c.Value("tx").(*pop.Connection)
+	found, err := tx.Where("user_id = ? and article_id = ?", userID, articleID).Exists(articleFavorite)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	if found {
+		articleFavorite = &models.ArticleFavorite{}
+		tx.Where("user_id = ? and article_id = ?", userID, articleID).First(articleFavorite)
+		err = tx.Destroy(articleFavorite)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+	} else {
+		articleFavorite = &models.ArticleFavorite{
+			UserID:    userID,
+			ArticleID: articleID,
+		}
+
+		_, err := articleFavorite.Create(tx)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+	}
+
+	sourcePage := c.Request().Form.Get("SourcePage")
+	return c.Redirect(302, sourcePage)
 }
 
 // ArticlesEdit renders the edit article form

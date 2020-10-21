@@ -13,15 +13,16 @@ import (
 
 // Article is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
 type Article struct {
-	ID          uuid.UUID `json:"id" db:"id"`
-	Title       string    `json:"title" db:"title"`
-	Slug        string    `json:"slug" db:"slug"`
-	Description string    `json:"description" db:"description"`
-	Body        string    `json:"body" db:"body"`
-	CreatedAt   time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
-	User        User      `belongs_to:"user"`
-	UserID      uuid.UUID `db:"user_id"`
+	ID               uuid.UUID         `json:"id" db:"id"`
+	Title            string            `json:"title" db:"title"`
+	Slug             string            `json:"slug" db:"slug"`
+	Description      string            `json:"description" db:"description"`
+	Body             string            `json:"body" db:"body"`
+	CreatedAt        time.Time         `json:"created_at" db:"created_at"`
+	UpdatedAt        time.Time         `json:"updated_at" db:"updated_at"`
+	User             User              `belongs_to:"user"`
+	UserID           uuid.UUID         `db:"user_id"`
+	ArticleFavorites []ArticleFavorite `has_many:"favorites" fk_id:"article_id"`
 }
 
 // String is not required by pop and may be deleted
