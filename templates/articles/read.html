@@ -77,13 +77,26 @@
               &nbsp;
               Follow <%= article.User.Name %> <span class="counter">(<%= len(article.User.Followers) %>)</span>
             </a>
-            &nbsp;&nbsp;
-            <a href="" class="btn btn-sm btn-outline-primary">
-              <i class="ion-heart"></i>
-              &nbsp;
-              Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
-            </a>
             <% } %>
+            &nbsp;&nbsp;
+            <%= if (current_user) { %>
+              <%= form({action: articlesStarPath(), method: "POST", style: "display: inline;"}) { %>
+                <input name="Slug" value="<%= article.Slug %>" type="hidden"/>
+                <input name="ArticleID" value="<%= article.ID %>" type="hidden"/>
+                <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
+                <button type="submit" class="btn btn-sm btn-outline-primary">
+                  <i class="ion-heart"></i>
+                  &nbsp;
+                  Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
+                </button>
+              <% } %>
+            <% } else { %>
+              <button type="submit" class="btn btn-sm btn-outline-primary">
+                <i class="ion-heart"></i>
+                &nbsp;
+                Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
+              </button>
+          <% } %>
 
         </div>
       </div>

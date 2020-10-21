@@ -8,9 +8,9 @@
         </div>
        <%= if (current_user) { %>
         <%= form({action: articlesStarPath(), method: "POST"}) { %>
-          <%= f.InputTag({name: "Slug", value: article.Slug, type: "hidden" }) %>
-          <%= f.InputTag({name: "ArticleID", value: article.ID, type: "hidden" }) %>
-          <%= f.InputTag({name: "SourcePage", value: source_page, type: "hidden" }) %>
+          <input name="Slug" value="<%= article.Slug %>" type="hidden"/>
+          <input name="ArticleID" value="<%= article.ID %>" type="hidden"/>
+          <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
           <button type="submit" class="btn btn-outline-primary btn-sm pull-xs-right">
             <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
           </button>
