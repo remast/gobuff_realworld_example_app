@@ -16,7 +16,7 @@ func ArticlesRead(c buffalo.Context) error {
 
 	a := []models.Article{}
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Where("slug = ?", slug).Eager().All(&a)
+	tx.Where("slug = ?", slug).Eager("User").Eager("ArticleFavorites").All(&a)
 
 	// article not found so redirect to home
 	if len(a) == 0 {
@@ -25,6 +25,7 @@ func ArticlesRead(c buffalo.Context) error {
 
 	article := a[0]
 
+	c.Set("source_page", c.Request().URL)
 	c.Set("article", article)
 
 	comment := models.Comment{}

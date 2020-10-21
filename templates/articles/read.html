@@ -33,7 +33,7 @@
           <a href="" class="btn btn-sm btn-outline-primary">
             <i class="ion-heart"></i>
             &nbsp;
-            Favorite Post <span class="counter">(29)</span>
+            Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
           </a>
           <% } %>
         </div>
@@ -75,13 +75,13 @@
             <a href="" class="btn btn-sm btn-outline-secondary">
               <i class="ion-plus-round"></i>
               &nbsp;
-              Follow <%= article.User.Name %> <span class="counter">(10)</span>
+              Follow <%= article.User.Name %> <span class="counter">(<%= len(article.User.Followers) %>)</span>
             </a>
             &nbsp;&nbsp;
             <a href="" class="btn btn-sm btn-outline-primary">
               <i class="ion-heart"></i>
               &nbsp;
-              Favorite Post <span class="counter">(29)</span>
+              Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
             </a>
             <% } %>
 

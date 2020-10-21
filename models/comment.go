@@ -11,11 +11,11 @@ import (
 
 // Comment is used by pop to map your comments database table to your go code.
 type Comment struct {
-	ID        uuid.UUID `json:"id" db:"id"`
-	Body      string    `json:"body" db:"body"`
-	User      User      `belongs_to:"user"`
-	UserID    uuid.UUID `db:"user_id"`
-	Article   Article   `belongs_to:"article"`
+	ID     uuid.UUID `json:"id" db:"id"`
+	Body   string    `json:"body" db:"body"`
+	User   User      `belongs_to:"user"`
+	UserID uuid.UUID `db:"user_id"`
+	//Article   Article   `belongs_to:"article"`
 	ArticleID uuid.UUID `db:"article_id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
