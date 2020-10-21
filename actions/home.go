@@ -14,7 +14,7 @@ func HomeHandler(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 
 	q := tx.PaginateFromParams(c.Params())
-	q.Order("created_at desc").Eager("User").All(&a)
+	q.Order("created_at desc").Eager("User").Eager("ArticleFavorites").All(&a)
 
 	c.Set("paginator", q.Paginator)
 

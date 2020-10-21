@@ -32,7 +32,7 @@ func UsersProfile(c buffalo.Context) error {
 	c.Set("profile_user", user)
 
 	a := []models.Article{}
-	tx.Where("user_id = ?", user.ID).Order("created_at desc").Limit(10).Eager("User").All(&a)
+	tx.Where("user_id = ?", user.ID).Order("created_at desc").Limit(10).Eager("User").Eager("ArticleFavorites").All(&a)
 
 	c.Set("articles", a)
 
