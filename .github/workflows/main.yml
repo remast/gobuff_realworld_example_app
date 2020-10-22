@@ -16,5 +16,5 @@ jobs:
       with:
         name: remast/gobuff_realworld_example_app/app
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }} 
+        password: ${{ secrets.CR_PAT }} 
         registry: ghcr.io
