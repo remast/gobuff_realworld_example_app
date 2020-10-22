@@ -9,22 +9,20 @@
                 </p>
 
               <%= form_for(user, {action: usersRegisterPath(), method: "POST"}) { %>
-
-              <%= f.InputTag("Name", {placeholder: "Your Name", class: "form-control-lg" }) %>
-              <%= f.InputTag("Email", {placeholder: "Email", class: "form-control-lg" }) %>
-              <%= f.InputTag("Password", {type: "password", placeholder: "Password", class: "form-control-lg" }) %>
-
-              <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
-                  Sign up
-              </button>
-
+                <%= f.InputTag("Name", {placeholder: "Your Name", class: "form-control-lg" }) %>
+                <%= f.InputTag("Email", {placeholder: "Email", class: "form-control-lg" }) %>
+                <%= f.InputTag("Password", {type: "password", placeholder: "Password", class: "form-control-lg" }) %>
+  
+                <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+                    Sign up
+                </button>
               <% } %>
 
               <!--
-        <ul class="error-messages">
-          <li>That email is already taken</li>
-        </ul>
-        -->
+              <ul class="error-messages">
+                <li>That email is already taken</li>
+              </ul>
+              -->
 
           </div>
 

@@ -41,6 +41,7 @@
           </div>
 
           <%= partial("articles/list.html") %>
+
           <%= for (index, article) in articles { %>
             <div class="article-preview">
               <div class="article-meta">
@@ -58,8 +59,7 @@
                 <p><%= article.Description %></p>
                 <span>Read more...</span>
               <% } %>
-            </div>
-    
+            </div>    
           <% } %>
   
         </div>

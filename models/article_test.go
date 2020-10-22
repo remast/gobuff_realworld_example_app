@@ -10,7 +10,10 @@ func (ms *ModelSuite) Test_Article() {
 	countBefore, _ := ms.DB.Count(&Article{})
 
 	article := &Article{
-		UserID: u.ID,
+		UserID:      u.ID,
+		Title:       "Title",
+		Body:        "Body",
+		Description: "Description",
 	}
 
 	// Act

@@ -11,8 +11,8 @@ func (ms *ModelSuite) Test_Follow() {
 	ms.DB.Where("email = ?", "max@sample.de").First(u2)
 
 	follow := &Follow{
-		UserID:   u1.ID,
-		FollowID: u2.ID,
+		UserID:   u2.ID,
+		FollowID: u1.ID,
 	}
 
 	// Act

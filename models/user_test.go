@@ -51,6 +51,7 @@ func (ms *ModelSuite) Test_User_Create_UserExists() {
 
 	u := &User{
 		Email:                "mark@example.com",
+		Name:                 "Mark Example",
 		Password:             "password",
 		PasswordConfirmation: "password",
 	}
