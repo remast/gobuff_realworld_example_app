@@ -22,7 +22,7 @@ func UsersProfile(c buffalo.Context) error {
 
 	u := []models.User{}
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Where("email = ?", email).All(&u)
+	tx.Where("email = ?", email).Eager("Followers").All(&u)
 
 	// user not found so redirect to home
 	if len(u) == 0 {
