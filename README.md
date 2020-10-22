@@ -1,3 +1,5 @@
+![Github Actions](https://github.com/remast/gobuff_realworld_example_app/workflows/CI%20Build/badge.svg)
+
 # ![RealWorld Example App](logo.png)
 
 > ### Buffalo codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
