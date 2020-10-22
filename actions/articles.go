@@ -16,25 +16,26 @@ func ArticlesRead(c buffalo.Context) error {
 
 	a := []models.Article{}
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Where("slug = ?", slug).Eager("User").Eager("ArticleFavorites").All(&a)
+	tx.Where("slug = ?", slug).Eager("ArticleFavorites").All(&a)
 
 	// article not found so redirect to home
 	if len(a) == 0 {
 		return c.Redirect(302, "/")
 	}
 
-	article := a[0]
+	article := &a[0]
 
 	c.Set("source_page", c.Request().URL)
 	c.Set("article", article)
-
-	comment := models.Comment{}
-	c.Set("comment", comment)
+	c.Set("comment", &models.Comment{})
 
 	comments := []models.Comment{}
 	tx.Where("article_id = ?", article.ID).Order("created_at desc").Limit(20).Eager().All(&comments)
-
 	c.Set("comments", comments)
+
+	author := &models.User{}
+	tx.Eager("Followers").Find(author, article.UserID)
+	c.Set("author", author)
 
 	return c.Render(200, r.HTML("articles/read.html"))
 }

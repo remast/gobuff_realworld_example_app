@@ -23,7 +23,7 @@ type User struct {
 	PasswordHash         string    `json:"password_hash" db:"password_hash"`
 	Password             string    `json:"-" db:"-"`
 	PasswordConfirmation string    `json:"-" db:"-"`
-	Followers            []Follow  `has_many:"followers" fk_id:"user_id"`
+	Followers            []Follow  `has_many:"followers" fk_id:"follow_id"`
 }
 
 // Create wraps up the pattern of encrypting the password and
