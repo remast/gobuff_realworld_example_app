@@ -1,0 +1,9 @@
+create_table("follows") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("user_id", "uuid", {"null": false})
+	t.Column("follow_id", "uuid", {"null": false})
+	t.DisableTimestamps()
+}
+
+add_index("follows", "user_id")
+add_index("follows", [ "user_id", "follow_id" ], {"unique": true})
