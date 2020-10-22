@@ -1,0 +1,20 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: remast/gobuff_realworld_example_app/app
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }} 
+        registry: docker.pkg.github.com
