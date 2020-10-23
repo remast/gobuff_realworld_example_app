@@ -3,7 +3,7 @@ development:
   database: gobuff_realworld_example_app_development
   user: postgres
   password: postgres
-  host: 127.0.0.1
+  host: {{envOr "DATABASE_HOST" "127.0.0.1"}}
   pool: 5
 
 test:

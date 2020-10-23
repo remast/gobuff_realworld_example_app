@@ -20,11 +20,6 @@ func HomeHandler(c buffalo.Context) error {
 
 	c.Logger().Error(q.Paginator.String())
 
-	// article not found so redirect to home
-	if len(a) == 0 {
-		return c.Redirect(302, "/")
-	}
-
 	c.Set("source_page", c.Request().URL)
 	c.Set("articles", a)
 
