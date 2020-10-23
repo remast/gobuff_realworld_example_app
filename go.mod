@@ -1,5 +1,6 @@
 module gobuff_realworld_example_app
 
+// +heroku goVersion go1.15
 go 1.15
 
 require (
