@@ -78,7 +78,7 @@ func App() *buffalo.App {
 		//Routes for User registration
 		users := app.Group("/users")
 		users.GET("/register", UsersRegister)
-		users.GET("/profile/{user_email}", UsersProfile)
+		users.GET("/profile/{user_email}", UsersProfile).Name("userProfilePath")
 		users.POST("/register", UsersCreate)
 		users.Middleware.Remove(Authorize)
 
@@ -89,12 +89,12 @@ func App() *buffalo.App {
 		articles := app.Group("/articles")
 		articles.POST("/new", ArticlesCreate)
 		articles.GET("/new", ArticlesNew)
-		articles.POST("/{slug}/comment", ArticlesComment)
-		articles.GET("/{slug}/delete", ArticlesDelete)
-		articles.GET("/{slug}/edit", ArticlesEdit)
-		articles.PUT("/{slug}/edit", ArticlesUpdate)
+		articles.POST("/{slug}/comment", ArticlesComment).Name("articleCommentPath")
+		articles.GET("/{slug}/delete", ArticlesDelete).Name("deleteArticlePath")
+		articles.GET("/{slug}/edit", ArticlesEdit).Name("editArticlePath")
+		articles.PUT("/{slug}/edit", ArticlesUpdate).Name("editArticlePath")
 		articles.POST("/star", ArticlesStar)
-		articles.GET("/{slug}", ArticlesRead)
+		articles.GET("/{slug}", ArticlesRead).Name("articlePath")
 		articles.Middleware.Skip(Authorize, ArticlesRead)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory

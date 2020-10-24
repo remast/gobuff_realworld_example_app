@@ -1,9 +1,9 @@
 <%= for (index, article) in articles { %>
     <div class="article-preview">
       <div class="article-meta">
-        <%= linkTo(usersProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
+        <%= linkTo(userProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
         <div class="info">
-          <%= linkTo(usersProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
+          <%= linkTo(userProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
           <span class="date"><%= article.CreatedAt %></span>
         </div>
        <%= if (current_user) { %>

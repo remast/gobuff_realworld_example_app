@@ -1,7 +1,7 @@
 <div class="article-meta">
-    <%= linkTo(usersProfilePath({user_email: author.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
+    <%= linkTo(userProfilePath({user_email: author.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
     <div class="info">
-      <%= linkTo(usersProfilePath({user_email: author.Email}), {class: "author"}){ %><%= author.Name %><% } %>
+      <%= linkTo(userProfilePath({user_email: author.Email}), {class: "author"}){ %><%= author.Name %><% } %>
       <span class="date"><%= author.CreatedAt %></span>
     </div>
 
@@ -13,7 +13,7 @@
             Edit Article
           </a>
           &nbsp;&nbsp;
-          <a href="<%= articleDeletePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-danger">
+          <a href="<%= deleteArticlePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-danger">
             <i class="ion-trash-a"></i>
             &nbsp;
             Delete Article
