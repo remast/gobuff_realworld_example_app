@@ -2,7 +2,7 @@
     <%= linkTo(userProfilePath({user_email: author.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
     <div class="info">
       <%= linkTo(userProfilePath({user_email: author.Email}), {class: "author"}){ %><%= author.Name %><% } %>
-      <span class="date"><%= author.CreatedAt %></span>
+      <span class="date"><%= as_date(author.CreatedAt) %></span>
     </div>
 
       <%= if (current_user) { %>

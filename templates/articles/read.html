@@ -50,7 +50,7 @@
                 </a>
                 &nbsp;
                 <a href="" class="comment-author"><%= comment.User.Name %></a>
-                <span class="date-posted"><%= comment.CreatedAt %></span>
+                <span class="date-posted"><%= as_date(comment.CreatedAt) %></span>
               </div>
             </div>
           <% } %>

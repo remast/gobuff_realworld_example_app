@@ -4,7 +4,7 @@
         <%= linkTo(userProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
         <div class="info">
           <%= linkTo(userProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
-          <span class="date"><%= article.CreatedAt %></span>
+          <span class="date"><%= as_date(article.CreatedAt) %></span>
         </div>
        <%= if (current_user) { %>
         <%= form({action: articlesStarPath(), method: "POST"}) { %>

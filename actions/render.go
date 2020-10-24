@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"time"
+
 	"github.com/gobuffalo/buffalo/render"
 	"github.com/gobuffalo/packr/v2"
 )
@@ -19,6 +21,9 @@ func init() {
 
 		// Add template helpers here:
 		Helpers: render.Helpers{
+			"as_date": func(date time.Time) string {
+				return date.Format("January 02, 2006")
+			},
 			// uncomment for non-Bootstrap form helpers:
 			// "form":     plush.FormHelper,
 			// "form_for": plush.FormForHelper,
