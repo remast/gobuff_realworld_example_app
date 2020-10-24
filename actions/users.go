@@ -112,7 +112,9 @@ func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
 			tx := c.Value("tx").(*pop.Connection)
 			err := tx.Find(u, uid)
 			if err != nil {
-				return errors.WithStack(err)
+				// user not found and might have been deleted
+				c.Session().Clear()
+				return next(c)
 			}
 			c.Set("current_user", u)
 		}
