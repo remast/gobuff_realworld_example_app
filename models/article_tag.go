@@ -2,16 +2,19 @@ package models
 
 import (
 	"encoding/json"
+
 	"github.com/gobuffalo/pop/v5"
 	"github.com/gobuffalo/validate/v3"
 	"github.com/gofrs/uuid"
-	"time"
 )
+
 // ArticleTag is used by pop to map your article_tags database table to your go code.
 type ArticleTag struct {
-    ID uuid.UUID `json:"id" db:"id"`
-    CreatedAt time.Time `json:"created_at" db:"created_at"`
-    UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
+	ID        uuid.UUID `json:"id" db:"id"`
+	Tag       Tag       `belongs_to:"tag"`
+	TagID     uuid.UUID `db:"tag_id"`
+	Article   Article   `belongs_to:"article"`
+	ArticleID uuid.UUID `db:"article_id"`
 }
 
 // String is not required by pop and may be deleted
@@ -27,6 +30,11 @@ type ArticleTags []ArticleTag
 func (a ArticleTags) String() string {
 	ja, _ := json.Marshal(a)
 	return string(ja)
+}
+
+// Create an article tag
+func (a *ArticleTag) Create(tx *pop.Connection) (*validate.Errors, error) {
+	return tx.ValidateAndCreate(a)
 }
 
 // Validate gets run every time you call a "pop.Validate*" (pop.ValidateAndSave, pop.ValidateAndCreate, pop.ValidateAndUpdate) method.

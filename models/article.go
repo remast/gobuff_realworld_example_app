@@ -23,6 +23,7 @@ type Article struct {
 	User             User              `belongs_to:"user"`
 	UserID           uuid.UUID         `db:"user_id"`
 	ArticleFavorites []ArticleFavorite `has_many:"favorites" fk_id:"article_id"`
+	ArticleTags      []ArticleTag      `has_many:"tags" fk_id:"article_id"`
 }
 
 // String is not required by pop and may be deleted

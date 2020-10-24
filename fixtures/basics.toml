@@ -32,3 +32,18 @@ name = "basics"
       body = "Some Sara story Body"
       created_at = "<%= now() %>"
       updated_at = "<%= now() %>"
+  
+  [[scenario.table]]
+    name = "tags"
+
+    [[scenario.table.row]]
+      id = "<%= uuidNamed("tag") %>"
+      name = "beginner"
+  
+  [[scenario.table]]
+    name = "article_tags"
+
+    [[scenario.table.row]]
+      id = "<%= uuidNamed() %>"
+      article_id = "<%= uuidNamed("article") %>"
+      tag_id = "<%= uuidNamed("tag") %>"
