@@ -117,6 +117,25 @@ func (a *Article) updateTags(tx *pop.Connection) error {
 	return nil
 }
 
+// Destroy an article
+func (a *Article) Destroy(tx *pop.Connection) error {
+	// Delete all tags of this article
+	q := tx.RawQuery("delete from article_tags where article_id = ?", a.ID)
+	err := q.Exec()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	// Delete all favorites of this article
+	q = tx.RawQuery("delete from article_favorites where article_id = ?", a.ID)
+	err = q.Exec()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	return tx.Destroy(a)
+}
+
 // Update an article with slug
 func (a *Article) Update(tx *pop.Connection) (*validate.Errors, error) {
 	a.Slug = slug.Make(a.Title)

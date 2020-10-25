@@ -89,7 +89,11 @@ func ArticlesDelete(c buffalo.Context) error {
 	tx.Where("slug = ? and user_id = ?", slug, u.ID).Eager().All(&a)
 
 	if len(a) > 0 {
-		tx.Destroy(&a)
+		err := a[0].Destroy(tx)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+
 		c.Flash().Add("success", "Article deleted")
 	}
 
