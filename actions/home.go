@@ -5,23 +5,29 @@ import (
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v5"
+	"github.com/pkg/errors"
 )
 
-// HomeHandler is a default handler to serve up
-// a home page.
+// HomeHandler is a default handler to serve the home page.
 func HomeHandler(c buffalo.Context) error {
 	a := []models.Article{}
 	tx := c.Value("tx").(*pop.Connection)
 
 	q := tx.PaginateFromParams(c.Params())
-	q.Order("created_at desc").Eager("User").Eager("ArticleFavorites").All(&a)
-
+	err := q.Order("created_at desc").Eager("User").Eager("ArticleFavorites").Eager("ArticleTags").Eager("ArticleTags.Tag").All(&a)
+	if err != nil {
+		return errors.WithStack(err)
+	}
 	c.Set("paginator", q.Paginator)
+	c.Set("articles", a)
 
-	c.Logger().Error(q.Paginator.String())
+	tags, err := models.LoadPopularArticleTags(tx, 20)
+	if err != nil {
+		return errors.WithStack(err)
+	}
+	c.Set("tags", tags)
 
 	c.Set("source_page", c.Request().URL)
-	c.Set("articles", a)
 
 	return c.Render(200, r.HTML("index.html"))
 }

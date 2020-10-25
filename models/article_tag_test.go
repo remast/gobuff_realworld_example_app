@@ -54,3 +54,15 @@ func (ms *ModelSuite) Test_ArticleTag_AddTag() {
 	ms.Equal("beginner", articleWithNewTag.ArticleTags[0].Tag.Name)
 	ms.Equal(newTag.Name, articleWithNewTag.ArticleTags[1].Tag.Name)
 }
+
+func (ms *ModelSuite) Test_ArticleFavorite_PopularTags() {
+	// Arrange
+	ms.LoadFixture("basics")
+
+	// Act
+	tags, err := LoadPopularArticleTags(ms.DB, 10)
+
+	// Assert
+	ms.NoError(err)
+	ms.Equal(1, len(tags))
+}

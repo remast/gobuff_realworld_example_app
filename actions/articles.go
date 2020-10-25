@@ -3,6 +3,7 @@ package actions
 import (
 	"fmt"
 	"gobuff_realworld_example_app/models"
+	"strings"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/v5"
@@ -16,7 +17,7 @@ func ArticlesRead(c buffalo.Context) error {
 
 	a := []models.Article{}
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Where("slug = ?", slug).Eager("ArticleFavorites").All(&a)
+	tx.Where("slug = ?", slug).Eager("ArticleFavorites").Eager("ArticleTags").Eager("ArticleTags.Tag").All(&a)
 
 	// article not found so redirect to home
 	if len(a) == 0 {
@@ -145,13 +146,21 @@ func ArticlesEdit(c buffalo.Context) error {
 	a := []models.Article{}
 
 	tx := c.Value("tx").(*pop.Connection)
-	tx.Where("slug = ? and user_id = ?", slug, u.ID).Eager().All(&a)
+	tx.Where("slug = ? and user_id = ?", slug, u.ID).Eager("ArticleTags").Eager("ArticleTags.Tag").Eager().All(&a)
 
 	if len(a) == 0 {
 		return c.Redirect(302, "/")
 	}
 
-	c.Set("article", a[0])
+	article := a[0]
+
+	tags := []string{}
+	for _, articleTag := range article.ArticleTags {
+		tags = append(tags, articleTag.Tag.Name)
+	}
+	article.Tags = strings.Join(tags, ", ")
+
+	c.Set("article", article)
 
 	return c.Render(200, r.HTML("articles/edit.html"))
 }

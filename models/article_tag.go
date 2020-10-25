@@ -32,6 +32,39 @@ func (a ArticleTags) String() string {
 	return string(ja)
 }
 
+// LoadPopularArticleTags loads the most popular tags
+func LoadPopularArticleTags(tx *pop.Connection, limit int) ([]Tag, error) {
+	tagCounts := []struct {
+		TagID uuid.UUID `db:"tag_id"`
+		Count int64     `db:"count"`
+	}{}
+
+	q := tx.RawQuery("SELECT COUNT(*) AS count, tag_id AS tag_id FROM article_tags GROUP BY (article_tags.tag_id) ORDER BY COUNT desc")
+	err := q.Limit(limit).All(&tagCounts)
+	if err != nil {
+		return nil, err
+	}
+
+	tagIds := []uuid.UUID{}
+
+	for _, tagCount := range tagCounts {
+		tagIds = append(tagIds, tagCount.TagID)
+	}
+
+	tags := []Tag{}
+	if len(tagIds) == 0 {
+		return tags, nil
+	}
+
+	err = tx.Where("id in (?)", tagIds).All(&tags)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return tags, nil
+}
+
 // Create an article tag
 func (a *ArticleTag) Create(tx *pop.Connection) (*validate.Errors, error) {
 	return tx.ValidateAndCreate(a)

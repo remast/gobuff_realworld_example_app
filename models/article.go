@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"strings"
 	"time"
 
 	"github.com/gobuffalo/pop/v5"
@@ -9,6 +10,7 @@ import (
 	"github.com/gobuffalo/validate/v3/validators"
 	"github.com/gofrs/uuid"
 	"github.com/gosimple/slug"
+	"github.com/pkg/errors"
 )
 
 // Article is used by pop to map your .model.Name.Proper.Pluralize.Underscore database table to your go code.
@@ -24,6 +26,7 @@ type Article struct {
 	UserID           uuid.UUID         `db:"user_id"`
 	ArticleFavorites []ArticleFavorite `has_many:"favorites" fk_id:"article_id"`
 	ArticleTags      []ArticleTag      `has_many:"tags" fk_id:"article_id"`
+	Tags             string            `json:"-" db:"-"`
 }
 
 // String is not required by pop and may be deleted
@@ -41,15 +44,86 @@ func (a Articles) String() string {
 	return string(ja)
 }
 
+// ParseTags parses the string of tags
+func (a *Article) ParseTags() []string {
+	tagsString := strings.ToLower(strings.Replace(a.Tags, "#", "", 0))
+
+	// Try with separator ','
+	tagsToNormalize := strings.Split(tagsString, ",")
+	if len(tagsToNormalize) == 1 {
+		// Try with separator ' '
+		tagsToNormalize = strings.Split(tagsString, " ")
+	}
+
+	tagsUnique := map[string]bool{}
+	tagsNormalized := []string{}
+	for _, tagToNormalize := range tagsToNormalize {
+		_, ok := tagsUnique[tagToNormalize] // check for existence
+		if ok {
+			continue
+		}
+
+		tagsUnique[tagToNormalize] = true // add tag
+		tagsNormalized = append(tagsNormalized, strings.TrimSpace(tagToNormalize))
+	}
+	return tagsNormalized
+}
+
 // Create an article with slug
 func (a *Article) Create(tx *pop.Connection) (*validate.Errors, error) {
 	a.Slug = slug.Make(a.Title)
-	return tx.ValidateAndCreate(a)
+	verrs, err := tx.ValidateAndCreate(a)
+	if err != nil {
+		return verrs, errors.WithStack(err)
+	}
+	if verrs.HasAny() {
+		return verrs, err
+	}
+
+	err = a.updateTags(tx)
+	return verrs, err
+}
+
+func (a *Article) updateTags(tx *pop.Connection) error {
+	tags, err := LoadOrCreateTags(tx, a.ParseTags())
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	articleTags := []ArticleTag{}
+	for _, tag := range tags {
+		articleTag := &ArticleTag{
+			ArticleID: a.ID,
+			TagID:     tag.ID,
+		}
+		articleTags = append(articleTags, *articleTag)
+	}
+
+	// 1. Delete all tags of this article
+	q := tx.RawQuery("delete from article_tags where article_id = ?", a.ID)
+	err = q.Exec()
+	if err != nil {
+		return errors.WithStack(err)
+	}
+
+	// 2. Insert all tags of this article
+	for _, articleTag := range articleTags {
+		_, err = articleTag.Create(tx)
+		if err != nil {
+			return errors.WithStack(err)
+		}
+	}
+
+	return nil
 }
 
 // Update an article with slug
 func (a *Article) Update(tx *pop.Connection) (*validate.Errors, error) {
 	a.Slug = slug.Make(a.Title)
+	err := a.updateTags(tx)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
 	return tx.ValidateAndUpdate(a)
 }
 
