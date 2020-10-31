@@ -14,19 +14,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// AuthLanding shows a landing page to login
-func AuthLanding(c buffalo.Context) error {
-	return c.Render(200, r.HTML("auth/landing.plush.html"))
-}
-
-// AuthLogin loads the signin page
-func AuthLogin(c buffalo.Context) error {
+// AuthLoginHandler loads the signin page
+func AuthLoginHandler(c buffalo.Context) error {
 	c.Set("user", models.User{})
 	return c.Render(200, r.HTML("auth/login.html"))
 }
 
-// AuthCreate attempts to log the user in with an existing account.
-func AuthCreate(c buffalo.Context) error {
+// AuthCreateHandler attempts to log the user in with an existing account.
+func AuthCreateHandler(c buffalo.Context) error {
 	u := &models.User{}
 	if err := c.Bind(u); err != nil {
 		return errors.WithStack(err)
@@ -34,7 +29,7 @@ func AuthCreate(c buffalo.Context) error {
 
 	tx := c.Value("tx").(*pop.Connection)
 
-	// find a user with the email
+	// find a user by email
 	err := tx.Where("email = ?", strings.ToLower(strings.TrimSpace(u.Email))).First(u)
 
 	// helper function to handle bad attempts
@@ -72,8 +67,8 @@ func AuthCreate(c buffalo.Context) error {
 	return c.Redirect(302, redirectURL)
 }
 
-// AuthLogout clears the session and logs a user out
-func AuthLogout(c buffalo.Context) error {
+// AuthLogoutHandler clears the session and logs a user out
+func AuthLogoutHandler(c buffalo.Context) error {
 	c.Session().Clear()
 	c.Flash().Add("success", "You have been logged out!")
 	return c.Redirect(302, "/")

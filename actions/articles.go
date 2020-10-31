@@ -11,8 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// ArticlesRead renders the article
-func ArticlesRead(c buffalo.Context) error {
+// ArticlesReadHandler renders the article
+func ArticlesReadHandler(c buffalo.Context) error {
 	slug := c.Param("slug")
 
 	a := []models.Article{}
@@ -21,6 +21,7 @@ func ArticlesRead(c buffalo.Context) error {
 
 	// article not found so redirect to home
 	if len(a) == 0 {
+		c.Flash().Add("warning", "Article not found.")
 		return c.Redirect(302, "/")
 	}
 
@@ -41,8 +42,8 @@ func ArticlesRead(c buffalo.Context) error {
 	return c.Render(200, r.HTML("articles/read.html"))
 }
 
-// ArticlesComment renders the article
-func ArticlesComment(c buffalo.Context) error {
+// ArticlesCommentHandler renders the article
+func ArticlesCommentHandler(c buffalo.Context) error {
 	u := c.Value("current_user").(*models.User)
 	slug := c.Param("slug")
 
@@ -70,16 +71,20 @@ func ArticlesComment(c buffalo.Context) error {
 	comment.UserID = u.ID
 	comment.ArticleID = article.ID
 
-	_, err := comment.Create(tx)
+	verrs, err := comment.Create(tx)
 	if err != nil {
 		return errors.WithStack(err)
+	}
+
+	if verrs.HasAny() {
+		c.Set("errors", verrs)
 	}
 
 	return c.Redirect(302, fmt.Sprintf("/articles/%v", slug))
 }
 
-// ArticlesDelete deletes an article
-func ArticlesDelete(c buffalo.Context) error {
+// ArticlesDeleteHandler deletes an article
+func ArticlesDeleteHandler(c buffalo.Context) error {
 	u := c.Value("current_user").(*models.User)
 	slug := c.Param("slug")
 
@@ -100,26 +105,26 @@ func ArticlesDelete(c buffalo.Context) error {
 	return c.Redirect(302, "/")
 }
 
-// ArticlesNew renders the article form
-func ArticlesNew(c buffalo.Context) error {
+// ArticlesNewHandler renders the article form
+func ArticlesNewHandler(c buffalo.Context) error {
 	a := models.Article{}
 	c.Set("article", a)
 	return c.Render(200, r.HTML("articles/new.html"))
 }
 
-// ArticlesStar stars an article
-func ArticlesStar(c buffalo.Context) error {
+// ArticlesStarHandler stars an article
+func ArticlesStarHandler(c buffalo.Context) error {
 	userID := c.Value("current_user").(*models.User).ID
 	articleID := uuid.FromStringOrNil(c.Request().Form.Get("ArticleID"))
 
 	articleFavorite := &models.ArticleFavorite{}
 	tx := c.Value("tx").(*pop.Connection)
-	found, err := tx.Where("user_id = ? and article_id = ?", userID, articleID).Exists(articleFavorite)
+	articleStarredAlready, err := tx.Where("user_id = ? and article_id = ?", userID, articleID).Exists(articleFavorite)
 	if err != nil {
 		return errors.WithStack(err)
 	}
 
-	if found {
+	if articleStarredAlready {
 		articleFavorite = &models.ArticleFavorite{}
 		tx.Where("user_id = ? and article_id = ?", userID, articleID).First(articleFavorite)
 		err = tx.Destroy(articleFavorite)
@@ -142,8 +147,8 @@ func ArticlesStar(c buffalo.Context) error {
 	return c.Redirect(302, sourcePage)
 }
 
-// ArticlesEdit renders the edit article form
-func ArticlesEdit(c buffalo.Context) error {
+// ArticlesEditHandler renders the edit article form
+func ArticlesEditHandler(c buffalo.Context) error {
 	u := c.Value("current_user").(*models.User)
 	slug := c.Param("slug")
 
@@ -169,8 +174,8 @@ func ArticlesEdit(c buffalo.Context) error {
 	return c.Render(200, r.HTML("articles/edit.html"))
 }
 
-// ArticlesCreate creates a new article
-func ArticlesCreate(c buffalo.Context) error {
+// ArticlesCreateHandler creates a new article
+func ArticlesCreateHandler(c buffalo.Context) error {
 	u := c.Value("current_user").(*models.User)
 
 	a := &models.Article{}
@@ -197,8 +202,8 @@ func ArticlesCreate(c buffalo.Context) error {
 	return c.Redirect(302, fmt.Sprintf("/articles/%v", a.Slug))
 }
 
-// ArticlesUpdate updates an article
-func ArticlesUpdate(c buffalo.Context) error {
+// ArticlesUpdateHandler updates an article
+func ArticlesUpdateHandler(c buffalo.Context) error {
 	u := c.Value("current_user").(*models.User)
 	slug := c.Param("slug")
 

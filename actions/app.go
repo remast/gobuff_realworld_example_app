@@ -38,7 +38,7 @@ func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
 			Env:         ENV,
-			SessionName: "_gobuff_realworld_example_app_session",
+			SessionName: "_gobuff_realworld_app_session",
 		})
 
 		// Automatically redirect to SSL
@@ -62,40 +62,39 @@ func App() *buffalo.App {
 		app.GET("/", HomeHandler)
 
 		//AuthMiddlewares
-		app.Use(SetCurrentUser)
-		app.Use(Authorize)
+		app.Use(SetCurrentUserMiddleware)
+		app.Use(AuthorizeMiddleware)
 
-		app.Middleware.Skip(Authorize, HomeHandler)
+		app.Middleware.Skip(AuthorizeMiddleware, HomeHandler)
 
 		//Routes for Auth
 		auth := app.Group("/auth")
-		auth.GET("/", AuthLanding)
-		auth.GET("/login", AuthLogin)
-		auth.POST("/", AuthCreate)
-		auth.GET("/logout", AuthLogout)
-		auth.Middleware.Skip(Authorize, AuthLanding, AuthLogin, AuthCreate)
+		auth.GET("/login", AuthLoginHandler)
+		auth.POST("/", AuthCreateHandler)
+		auth.GET("/logout", AuthLogoutHandler)
+		auth.Middleware.Skip(AuthorizeMiddleware, AuthLoginHandler, AuthCreateHandler)
 
 		//Routes for User registration
 		users := app.Group("/users")
-		users.GET("/register", UsersRegister)
-		users.GET("/profile/{user_email}", UsersProfile).Name("userProfilePath")
-		users.POST("/register", UsersCreate)
-		users.Middleware.Remove(Authorize)
+		users.GET("/register", UsersRegisterHandler)
+		users.GET("/profile/{user_email}", UsersProfileHandler).Name("userProfilePath")
+		users.POST("/register", UsersCreateHandler)
+		users.Middleware.Remove(AuthorizeMiddleware)
 
 		// Routes for Following
 		app.POST("/follow", UsersFollow)
 
 		// Routes for Articles
 		articles := app.Group("/articles")
-		articles.POST("/new", ArticlesCreate)
-		articles.GET("/new", ArticlesNew)
-		articles.POST("/{slug}/comment", ArticlesComment).Name("articleCommentPath")
-		articles.GET("/{slug}/delete", ArticlesDelete).Name("deleteArticlePath")
-		articles.GET("/{slug}/edit", ArticlesEdit).Name("editArticlePath")
-		articles.PUT("/{slug}/edit", ArticlesUpdate).Name("editArticlePath")
-		articles.POST("/star", ArticlesStar)
-		articles.GET("/{slug}", ArticlesRead).Name("articlePath")
-		articles.Middleware.Skip(Authorize, ArticlesRead)
+		articles.POST("/new", ArticlesCreateHandler)
+		articles.GET("/new", ArticlesNewHandler)
+		articles.POST("/{slug}/comment", ArticlesCommentHandler).Name("articleCommentPath")
+		articles.GET("/{slug}/delete", ArticlesDeleteHandler).Name("deleteArticlePath")
+		articles.GET("/{slug}/edit", ArticlesEditHandler).Name("editArticlePath")
+		articles.PUT("/{slug}/edit", ArticlesUpdateHandler).Name("editArticlePath")
+		articles.POST("/star", ArticlesStarHandler)
+		articles.GET("/{slug}", ArticlesReadHandler).Name("articlePath")
+		articles.Middleware.Skip(AuthorizeMiddleware, ArticlesReadHandler)
 
 		app.ServeFiles("/", assetsBox) // serve files from the public directory
 	}

@@ -9,15 +9,14 @@ import (
 	"github.com/pkg/errors"
 )
 
-//UsersRegister renders the users form
-func UsersRegister(c buffalo.Context) error {
-	u := models.User{}
-	c.Set("user", u)
+//UsersRegisterHandler renders the users form
+func UsersRegisterHandler(c buffalo.Context) error {
+	c.Set("user", models.User{})
 	return c.Render(200, r.HTML("users/register.html"))
 }
 
-//UsersProfile renders the user profile
-func UsersProfile(c buffalo.Context) error {
+//UsersProfileHandler renders the user profile
+func UsersProfileHandler(c buffalo.Context) error {
 	email := c.Param("user_email")
 
 	u := []models.User{}
@@ -43,8 +42,8 @@ func UsersProfile(c buffalo.Context) error {
 	return c.Render(200, r.HTML("users/profile.html"))
 }
 
-// UsersCreate registers a new user with the application.
-func UsersCreate(c buffalo.Context) error {
+// UsersCreateHandler registers a new user with the application.
+func UsersCreateHandler(c buffalo.Context) error {
 	u := &models.User{}
 	if err := c.Bind(u); err != nil {
 		return errors.WithStack(err)
@@ -63,7 +62,7 @@ func UsersCreate(c buffalo.Context) error {
 	}
 
 	c.Session().Set("current_user_id", u.ID)
-	c.Flash().Add("success", "Welcome to Buffalo!")
+	c.Flash().Add("success", "Welcome to RealWorld!")
 
 	return c.Redirect(302, "/")
 }
@@ -103,9 +102,9 @@ func UsersFollow(c buffalo.Context) error {
 	return c.Redirect(302, sourcePage)
 }
 
-// SetCurrentUser attempts to find a user based on the current_user_id
+// SetCurrentUserMiddleware attempts to find a user based on the current_user_id
 // in the session. If one is found it is set on the context.
-func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
+func SetCurrentUserMiddleware(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		if uid := c.Session().Get("current_user_id"); uid != nil {
 			u := &models.User{}
@@ -122,8 +121,8 @@ func SetCurrentUser(next buffalo.Handler) buffalo.Handler {
 	}
 }
 
-// Authorize require a user be logged in before accessing a route
-func Authorize(next buffalo.Handler) buffalo.Handler {
+// AuthorizeMiddleware require a user be logged in before accessing a route
+func AuthorizeMiddleware(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		if uid := c.Session().Get("current_user_id"); uid == nil {
 			c.Session().Set("redirectURL", c.Request().URL.String())
