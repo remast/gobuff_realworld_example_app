@@ -14,6 +14,19 @@ func HomeHandler(c buffalo.Context) error {
 	tx := c.Value("tx").(*pop.Connection)
 
 	q := tx.PaginateFromParams(c.Params())
+
+	// Filter tags
+	tagParam := c.Params().Get("tag")
+	if tagParam != "" {
+		tag := &models.Tag{}
+
+		exists, err := tx.Where("name = ?", tagParam).Exists(tag)
+		if err == nil && exists {
+			tx.Where("name = ?", tagParam).First(tag)
+			q = q.LeftJoin("article_tags", "article_tags.article_id=articles.id").Where("article_tags.tag_id = ?", tag.ID)
+		}
+	}
+
 	err := q.Order("created_at desc").Eager("User").Eager("ArticleFavorites").Eager("ArticleTags").Eager("ArticleTags.Tag").All(&a)
 	if err != nil {
 		return errors.WithStack(err)
