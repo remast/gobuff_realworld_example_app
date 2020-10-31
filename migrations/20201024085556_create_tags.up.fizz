@@ -1,0 +1,7 @@
+create_table("tags") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("name", "string", {"null": false})
+	t.DisableTimestamps()
+}
+
+add_index("tags", "name", {"unique": true})

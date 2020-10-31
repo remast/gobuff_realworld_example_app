@@ -13,6 +13,11 @@
         <div class="col-md-12">
             <%= markdown(article.Body) %>
         </div>
+        <ul class="tag-list">
+          <%= for (index, articleTag) in article.ArticleTags { %>
+          <li><a href="/?tag=<%= articleTag.Tag.Name %>" class="router-link-active tag-default tag-pill tag-outline"><%= articleTag.Tag.Name %></a></li>
+          <% } %>
+        </ul>
       </div>
   
       <hr />

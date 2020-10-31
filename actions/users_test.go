@@ -10,6 +10,7 @@ func (as *ActionSuite) Test_Users_Register() {
 }
 
 func (as *ActionSuite) Test_Users_Create() {
+	// Arrange
 	count, err := as.DB.Count("users")
 	as.NoError(err)
 	as.Equal(0, count)
@@ -20,7 +21,10 @@ func (as *ActionSuite) Test_Users_Create() {
 		Password: "password",
 	}
 
+	// Act
 	res := as.HTML("/users/register").Post(u)
+
+	// Assert
 	as.Equal(302, res.Code)
 
 	count, err = as.DB.Count("users")

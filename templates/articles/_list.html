@@ -21,11 +21,16 @@
         </button>
         <% } %>
       </div>
-      <%= linkTo(articlePath({slug: article.Slug}), {class:"preview-link"}){ %>
+      <a href="<%= articlePath({slug: article.Slug}) %>" class="preview-link">
         <h1><%= article.Title %></h1>
         <p><%= article.Description %></p>
         <span>Read more... </span>
-      <% } %>
-    </div>
+        <ul class="tag-list">
+          <%= for (index, articleTag) in article.ArticleTags { %>
+          <li class="router-link-active tag-default tag-pill tag-outline"><%= articleTag.Tag.Name %></li>
+          <% } %>
+        </ul>
+      </a>
+  </div>
 
   <% } %>

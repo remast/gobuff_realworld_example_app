@@ -1,0 +1,10 @@
+create_table("article_tags") {
+	t.Column("id", "uuid", {primary: true})
+	t.Column("article_id", "uuid", {"null": false})
+	t.Column("tag_id", "uuid", {"null": false})
+	t.DisableTimestamps()
+}
+
+add_foreign_key("article_tags", "article_id", {"articles": ["id"]})
+add_foreign_key("article_tags", "tag_id", {"tags": ["id"]})
+add_index("article_tags", "article_id", {"unique": false})
