@@ -1,6 +1,6 @@
 # This is a multi-stage Dockerfile and requires >= Docker 17.05
 # https://docs.docker.com/engine/userguide/eng-image/multistage-build/
-FROM gobuffalo/buffalo:v0.16.16 as builder
+FROM gobuffalo/buffalo:v0.16.23 as builder
 
 RUN mkdir -p $GOPATH/src/gobuff_realworld_example_app
 WORKDIR $GOPATH/src/gobuff_realworld_example_app
@@ -27,7 +27,7 @@ ENV ADDR=0.0.0.0
 EXPOSE 3000
 
 ## Add the wait script to the image
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
 RUN chmod +x /wait
 
 # Run the migrations before running the binary:
