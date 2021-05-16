@@ -33,7 +33,7 @@
           <%= if (current_user) { %>
           <%= form_for(comment, {action: articleCommentPath({slug: article.Slug}), method: "POST", class: "card comment-form"}) { %>
             <div class="card-block">
-              <%= f.TextArea("Body", {placeholder: "Write a comment...", rows: "3" }) %>
+              <%= f.TextArea("Body", {label: "", placeholder: "Write a comment...", rows: "3" }) %>
             </div>
             <div class="card-footer">
               <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
