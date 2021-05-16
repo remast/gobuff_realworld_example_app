@@ -41,26 +41,6 @@
           </div>
 
           <%= partial("articles/list.html") %>
-
-          <%= for (index, article) in articles { %>
-            <div class="article-preview">
-              <div class="article-meta">
-                <%= linkTo(userProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
-                <div class="info">
-                  <%= linkTo(userProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
-                  <span class="date"><%= as_date(article.CreatedAt) %></span>
-                </div>
-                <button class="btn btn-outline-primary btn-sm pull-xs-right">
-                  <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
-                </button>
-              </div>
-              <%= linkTo(articlePath({slug: article.Slug}), {class:"preview-link"}){ %>
-                <h1><%= article.Title %></h1>
-                <p><%= article.Description %></p>
-                <span>Read more...</span>
-              <% } %>
-            </div>    
-          <% } %>
   
         </div>
   
