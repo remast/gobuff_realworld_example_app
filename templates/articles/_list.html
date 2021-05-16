@@ -16,10 +16,10 @@
           </button>
         <% } %>
       <% } else { %>
-        <button type="submit" class="btn btn-outline-primary btn-sm pull-xs-right">
+        <%= linkTo(authLoginPath(), {class:"btn btn-outline-primary btn-sm pull-xs-right"}){ %>
           <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
-        </button>
         <% } %>
+      <% } %>
       </div>
       <a href="<%= articlePath({slug: article.Slug}) %>" class="preview-link">
         <h1><%= article.Title %></h1>
