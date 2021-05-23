@@ -1,0 +1,55 @@
+<div class="home-page">
+
+  <div class="banner">
+    <div class="container">
+      <h1 class="logo-font">conduit</h1>
+      <p>A place to share your knowledge.</p>
+    </div>
+  </div>
+
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-9">
+        <div class="feed-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li class="nav-item">
+              <a class="nav-link disabled" href="">Your Feed</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="">Global Feed</a>
+            </li>
+          </ul>
+        </div>
+
+        <%= partial("articles/list.html") %>
+        
+        <nav>
+          <ul class="pagination">
+            <%= for (p) in until(paginator.TotalPages) { %>
+              <% let pageIndex = p+1 %> 
+              <li data-test="page-link-<%= pageIndex %>" class="page-item <%= if (paginator.Page == pageIndex) { %>active<% } %>">
+                <a href="/?page=<%= pageIndex %>" class="page-link"><%= pageIndex %></a>
+              </li>
+            <% } %>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="col-md-3">
+        <div class="sidebar">
+          <p>Popular Tags</p>
+
+          <div class="tag-list">
+            <%= for (index, tag) in tags { %>
+            <a href="/?page=<%= paginator.Page %>&tag=<%= tag.Name %>" class="tag-pill tag-default"><%= tag.Name %></a>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

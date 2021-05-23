@@ -1,0 +1,57 @@
+<div class="article-meta">
+    <%= linkTo(userProfilePath({user_email: author.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
+    <div class="info">
+      <%= linkTo(userProfilePath({user_email: author.Email}), {class: "author"}){ %><%= author.Name %><% } %>
+      <span class="date"><%= as_date(author.CreatedAt) %></span>
+    </div>
+
+      <%= if (current_user) { %>
+        <%= if (current_user.ID.String() == article.UserID.String()) { %>
+          <a href="<%= editArticlePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-secondary">
+            <i class="ion-edit"></i>
+            &nbsp;
+            Edit Article
+          </a>
+          &nbsp;&nbsp;
+          <a href="<%= deleteArticlePath({slug: article.Slug}) %>" class="btn btn-sm btn-outline-danger">
+            <i class="ion-trash-a"></i>
+            &nbsp;
+            Delete Article
+          </a>
+          &nbsp;&nbsp;
+        <% } else { %>
+          <%= form({action: followPath(), method: "POST", style: "display: inline;"}) { %>
+            <input name="FollowID" value="<%= article.UserID %>" type="hidden"/>
+            <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
+            <button type="submit" class="btn btn-sm btn-outline-primary">
+              <i class="ion-plus-round"></i>
+              &nbsp;
+              Follow <%= author.Name %> <span class="counter">(<%= len(author.Followers) %>)</span>
+            </button>
+          <% } %>
+          &nbsp;&nbsp;
+        <% } %>
+        <%= form({action: articlesStarPath(), method: "POST", style: "display: inline;"}) { %>
+          <input name="Slug" value="<%= article.Slug %>" type="hidden"/>
+          <input name="ArticleID" value="<%= article.ID %>" type="hidden"/>
+          <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
+          <button type="submit" class="btn btn-sm btn-outline-primary">
+            <i class="ion-heart"></i>
+            &nbsp;
+            Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
+          </button>
+        <% } %>
+      <% } else { %>
+        <button type="submit" class="btn btn-sm btn-outline-secondary">
+          <i class="ion-plus-round"></i>
+          &nbsp;
+          Follow <%= author.Name %> <span class="counter">(<%= len(author.Followers) %>)</span>
+        </button>
+        &nbsp;&nbsp;
+        <button type="submit" class="btn btn-sm btn-outline-primary">
+          <i class="ion-heart"></i>
+          &nbsp;
+          Favorite Post <span class="counter">(<%= len(article.ArticleFavorites) %>)</span>
+        </button>
+      <% } %>
+  </div>

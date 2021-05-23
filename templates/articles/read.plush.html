@@ -1,0 +1,69 @@
+<div class="article-page">
+
+    <div class="banner">
+      <div class="container">  
+        <h1><%= article.Title %></h1>
+        <%= partial("articles/meta.html") %>
+      </div>
+    </div>
+  
+    <div class="container page">
+  
+      <div class="row article-content">
+        <div class="col-md-12">
+            <%= markdown(article.Body) %>
+        </div>
+        <ul class="tag-list">
+          <%= for (index, articleTag) in article.ArticleTags { %>
+          <li><a href="/?tag=<%= articleTag.Tag.Name %>" class="router-link-active tag-default tag-pill tag-outline"><%= articleTag.Tag.Name %></a></li>
+          <% } %>
+        </ul>
+      </div>
+  
+      <hr />
+  
+      <div class="article-actions">
+        <%= partial("articles/meta.html") %>
+      </div>
+  
+      <div class="row">
+  
+        <div class="col-xs-12 col-md-8 offset-md-2">
+
+          <%= if (current_user) { %>
+          <%= form_for(comment, {action: articleCommentPath({slug: article.Slug}), method: "POST", class: "card comment-form"}) { %>
+            <div class="card-block">
+              <%= f.TextArea("Body", {label: "", placeholder: "Write a comment...", rows: "3" }) %>
+            </div>
+            <div class="card-footer">
+              <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+              <button class="btn btn-sm btn-primary">
+               Post Comment
+              </button>
+            </div>
+          <% } %>
+          <% } %>
+ 
+          <%= for (index, comment) in comments { %>
+            <div class="card">
+              <div class="card-block">
+                <p class="card-text"><%= comment.Body %></p>
+              </div>
+              <div class="card-footer">
+                <a href="" class="comment-author">
+                  <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
+                </a>
+                &nbsp;
+                <a href="" class="comment-author"><%= comment.User.Name %></a>
+                <span class="date-posted"><%= as_date(comment.CreatedAt) %></span>
+              </div>
+            </div>
+          <% } %>
+          
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </div>

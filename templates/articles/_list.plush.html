@@ -1,0 +1,36 @@
+<%= for (index, article) in articles { %>
+    <div class="article-preview">
+      <div class="article-meta">
+        <%= linkTo(userProfilePath({user_email: article.User.Email})){ %><img src="http://i.imgur.com/Qr71crq.jpg" /><% } %>
+        <div class="info">
+          <%= linkTo(userProfilePath({user_email: article.User.Email}), {class: "author"}){ %><%= article.User.Name %><% } %>
+          <span class="date"><%= as_date(article.CreatedAt) %></span>
+        </div>
+       <%= if (current_user) { %>
+        <%= form({action: articlesStarPath(), method: "POST"}) { %>
+          <input name="Slug" value="<%= article.Slug %>" type="hidden"/>
+          <input name="ArticleID" value="<%= article.ID %>" type="hidden"/>
+          <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
+          <button type="submit" class="btn btn-outline-primary btn-sm pull-xs-right">
+            <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
+          </button>
+        <% } %>
+      <% } else { %>
+        <%= linkTo(authLoginPath(), {class:"btn btn-outline-primary btn-sm pull-xs-right"}){ %>
+          <i class="ion-heart"></i> <%= len(article.ArticleFavorites) %>
+        <% } %>
+      <% } %>
+      </div>
+      <a href="<%= articlePath({slug: article.Slug}) %>" class="preview-link">
+        <h1><%= article.Title %></h1>
+        <p><%= article.Description %></p>
+        <span>Read more... </span>
+        <ul class="tag-list">
+          <%= for (index, articleTag) in article.ArticleTags { %>
+          <li class="router-link-active tag-default tag-pill tag-outline"><%= articleTag.Tag.Name %></li>
+          <% } %>
+        </ul>
+      </a>
+  </div>
+
+  <% } %>

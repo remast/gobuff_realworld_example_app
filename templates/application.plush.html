@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>Buffalo - Gobuff Realworld Example App</title>
+
+    
+    <!-- Import Ionicon icons & Google Fonts our Bootstrap theme relies on -->
+    <link href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic" rel="stylesheet" type="text/css">
+    <!-- Import the custom Bootstrap 4 theme from our hosted CDN -->
+    <link rel="stylesheet" href="//demo.productionready.io/main.css">
+    
+    <%= stylesheetTag("buffalo.css") %>
+    <%= stylesheetTag("application.css") %>
+    <meta name="csrf-param" content="authenticity_token" />
+    <meta name="csrf-token" content="<%= authenticity_token %>" />
+    <link rel="icon" href="<%= assetPath("images/favicon.ico") %>">
+  </head>
+  <body>
+    <nav class="navbar navbar-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">conduit</a>
+        <ul class="nav navbar-nav pull-xs-right">
+          <li class="nav-item">
+            <!-- Add "active" class when you're on that page" -->
+            <a class="nav-link active" href="/">Home</a>
+          </li>
+          <%= if (current_user) { %>
+          <li class="nav-item">
+            <%= linkTo(newArticlesPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> New Article<% } %>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="ion-gear-a"></i>&nbsp;Settings
+            </a>
+          </li>
+          <li class="nav-item">
+            <%= linkTo(userProfilePath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Name %><% } %>
+          </li>
+          <li class="nav-item">
+            <%= linkTo(authLogoutPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign Out<% } %>
+          </li>
+          <% } else { %>
+          <li class="nav-item">
+              <%= linkTo(authLoginPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign In<% } %>
+          </li>
+          <li class="nav-item">
+              <%= linkTo(usersRegisterPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign up<% } %>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <%= partial("flash.html") %>
+      <%= yield %>
+    </div>
+
+    <footer>
+      <div class="container">
+        <a href="/" class="logo-font">conduit</a>
+        <span class="attribution">
+          An interactive learning project from <a href="https://thinkster.io">Thinkster</a>. Code &amp; design licensed under MIT.
+        </span>
+      </div>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<div class="profile-page">
+
+    <div class="user-info">
+      <div class="container">
+        <div class="row">
+  
+          <div class="col-xs-12 col-md-10 offset-md-1">
+            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img" />
+            <h4><%= profile_user.Name %></h4>
+            <p>&nbsp;</p>
+            <%= if (current_user && current_user.ID.String() != profile_user.ID.String()) { %>
+              <%= form({action: followPath(), method: "POST", style: "display: inline;"}) { %>
+                <input name="FollowID" value="<%= profile_user.ID %>" type="hidden"/>
+                <input name="SourcePage" value="<%= source_page %>" type="hidden"/>  
+                <button type="submit" class="btn btn-sm btn-outline-secondary action-btn">
+                  <i class="ion-plus-round"></i>
+                  &nbsp;
+                  Follow <%= profile_user.Name %> <span class="counter">(<%= len(profile_user.Followers) %>)</span>
+                </button>
+              <% } %>
+            <% } %>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+    <div class="container">
+      <div class="row">
+  
+        <div class="col-xs-12 col-md-10 offset-md-1">
+          <div class="articles-toggle">
+            <ul class="nav nav-pills outline-active">
+              <li class="nav-item">
+                <a class="nav-link active" href="">My Articles</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Favorited Articles</a>
+              </li>
+            </ul>
+          </div>
+
+          <%= partial("articles/list.html") %>
+  
+        </div>
+  
+      </div>
+    </div>
+  
+  </div>

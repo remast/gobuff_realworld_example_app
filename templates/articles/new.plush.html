@@ -1,0 +1,19 @@
+<div class="editor-page">
+    <div class="container page">
+      <div class="row">
+  
+        <div class="col-md-10 offset-md-1 col-xs-12">
+          <%= form_for(article, {action: newArticlesPath(), method: "POST"}) { %>
+            <%= f.InputTag("Title", {placeholder: "Article Title", class: "form-control-lg" }) %>
+            <%= f.InputTag("Description", {placeholder: "What's this article about?" }) %>
+            <%= f.TextArea("Body", {placeholder: "Write your article (in markdown)", rows: "8" }) %>
+            <%= f.InputTag("Tags", {placeholder: "Enter tags" }) %>
+            <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
+                Publish Article
+            </button>
+          <% } %>
+        </div>
+  
+      </div>
+    </div>
+  </div>
