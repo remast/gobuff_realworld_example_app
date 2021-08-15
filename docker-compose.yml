@@ -14,7 +14,7 @@ services:
       - "DATABASE_HOST=db"
 
   db:
-    image: postgres
+    image: postgres:latest
     container_name: gobuf___db
     hostname: db
     environment:
