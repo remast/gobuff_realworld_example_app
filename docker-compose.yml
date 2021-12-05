@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  app:
+  app
     image: ghcr.io/remast/gobuff_realworld_example_app/app:latest
     container_name: gobuf___app
     hostname: app

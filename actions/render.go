@@ -3,6 +3,9 @@ package actions
 import (
 	"time"
 
+	"gobuff_realworld_example_app/public"
+	"gobuff_realworld_example_app/templates"
+
 	"github.com/gobuffalo/buffalo/render"
 	"github.com/gobuffalo/packr/v2"
 )
@@ -16,8 +19,8 @@ func init() {
 		HTMLLayout: "application.html",
 
 		// Box containing all of the templates:
-		TemplatesBox: packr.New("app:templates", "../templates"),
-		AssetsBox:    assetsBox,
+		TemplatesFS: templates.FS(),
+		AssetsFS:    public.FS(),
 
 		// Add template helpers here:
 		Helpers: render.Helpers{

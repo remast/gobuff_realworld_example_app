@@ -9,7 +9,7 @@ import (
 
 	"gobuff_realworld_example_app/models"
 
-	"github.com/gobuffalo/buffalo-pop/v2/pop/popmw"
+	"github.com/gobuffalo/buffalo-pop/v3/pop/popmw"
 	csrf "github.com/gobuffalo/mw-csrf"
 	i18n "github.com/gobuffalo/mw-i18n"
 	"github.com/gobuffalo/packr/v2"
