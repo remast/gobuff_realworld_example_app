@@ -1,2 +1,2 @@
 db:
-	psql -h 0.0.0.0 -p 54320 -U postgres -d rw_db --password
+	psql -h 0.0.0.0 -p 5432 -U postgres -d gobuff_realworld_example_app_development --password
