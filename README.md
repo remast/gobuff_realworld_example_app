@@ -18,23 +18,28 @@ For more information on how to this works with other frontends/backends, head ov
 
 ## 1. Start the app
 
+```bash
 	buffalo dev
+```
 
 ## 2. Start the database
-
-	docker run --name rw_db -e POSTGRES_DB=gobuff_realworld_example_app_development -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
-
+```bash
+	sudo docker run --name rw_db -e POSTGRES_DB=gobuff_realworld_example_app_development -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -p 5432:5432 -d postgres
+```
 ## 3. Update the database
 
+```bash
 	buffalo pop migrate
+```
 
 If you point your browser to [http://127.0.0.1:3000](http://127.0.0.1:3000) you should see the home page.
 
 ## Running the tests
 
+```bash
 	buffalo test --force-migrations
 	buffalo test models -m "ArticleFavorite" --force-migrations
-
+```
 # How it works
 
 [Buffalo](http://gobuffalo.io) web application with server side rendering, server side user session and PostgreSQL database.
