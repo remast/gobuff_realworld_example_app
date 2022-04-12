@@ -37,16 +37,16 @@
             </a>
           </li>
           <li class="nav-item">
-            <%= linkTo(userProfilePath({user_email: current_user.Email}), {class:"nav-link"}){ %><%= current_user.Name %><% } %>
+            <%= linkTo(userProfilePath({user_email: current_user.Email}), {class:"nav-link", data-cy: "username-home"}){ %><%= current_user.Name %><% } %>
           </li>
           <li class="nav-item">
             <%= linkTo(authLogoutPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign Out<% } %>
           </li>
           <% } else { %>
-          <li class="nav-item">
+          <li class="nav-item" data-cy="sign-in">
               <%= linkTo(authLoginPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign In<% } %>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" data-cy="sign-up">
               <%= linkTo(usersRegisterPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign up<% } %>
           </li>
           <% } %>

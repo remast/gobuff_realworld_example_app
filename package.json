@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "cypress": "^9.5.3",
+    "faker": "^5.5.3",
+    "pg": "^8.7.3",
+    "sequelize": "^6.18.0",
+    "sequelize-cli": "^6.4.1"
+  }
+}

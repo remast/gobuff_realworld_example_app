@@ -4,16 +4,16 @@
 
           <div class="col-md-6 offset-md-3 col-xs-12">
               <h1 class="text-xs-center">Sign up</h1>
-              <p class="text-xs-center">
+              <p class="text-xs-center" data-cy="have-acc-btn">
                   <%= linkTo(authLoginPath()){ %>Have an account?<% } %>
                 </p>
 
               <%= form_for(user, {action: usersRegisterPath(), method: "POST"}) { %>
-                <%= f.InputTag("Name", {placeholder: "Your Name", class: "form-control-lg" }) %>
-                <%= f.InputTag("Email", {placeholder: "Email", class: "form-control-lg" }) %>
-                <%= f.InputTag("Password", {type: "password", placeholder: "Password", class: "form-control-lg" }) %>
+                <%= f.InputTag("Name", {placeholder: "Your Name", class: "form-control-lg", data-cy: "name" }) %>
+                <%= f.InputTag("Email", {placeholder: "Email", class: "form-control-lg", data-cy: "email" }) %>
+                <%= f.InputTag("Password", {type: "password", placeholder: "Password", class: "form-control-lg", data-cy: "password" }) %>
   
-                <button class="btn btn-lg btn-primary pull-xs-right" type="submit">
+                <button class="btn btn-lg btn-primary pull-xs-right" type="submit" data-cy="submit-register">
                     Sign up
                 </button>
               <% } %>
