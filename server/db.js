@@ -26,4 +26,33 @@ async function clear() {
   }
 }
 
-module.exports = { clear };
+async function seed() {
+  const t = await sequilize.transaction();
+
+  try {
+    await sequilize.query(`INSERT INTO users (
+      "created_at", 
+      "email",
+      "id",
+      "name",
+      "password_hash",
+      "updated_at")
+    VALUES (
+      '2022-04-13 19:46:14.539064',
+      'test@mail.com',
+      '4ebd00a9-b527-4802-9aae-abf5bfed5f76',
+      'test',
+      '$2a$10$obnFbyhuea941I8KT43lIeoCBb3Ms/0Ltwj65lO/iTpMDfpPtThby',
+      '2022-04-13 19:46:14.539064');`)
+
+    await t.commit();
+
+    console.log('User was added');
+  } catch (error) {
+    await t.rollback();
+
+    console.log(`Can't seed DB`);
+  }
+}
+
+module.exports = { clear, seed };

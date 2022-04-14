@@ -27,3 +27,14 @@
 Cypress.Commands.add('getByDataCy', (selector) => {
   cy.get(`[data-cy="${selector}"]`);
 });
+
+Cypress.Commands.add('register', (username, email, password) => {
+  cy.getByDataCy('sign-up')
+    .click();
+  cy.getByDataCy('name')
+    .type(username);
+  cy.getByDataCy('email')
+    .type(email);
+  cy.getByDataCy('password')
+    .type(password + '{enter}');
+});

@@ -10,10 +10,10 @@
     <div class="container page">
   
       <div class="row article-content">
-        <div class="col-md-12">
+        <div class="col-md-12" data-cy="body">
             <%= markdown(article.Body) %>
         </div>
-        <ul class="tag-list">
+        <ul class="tag-list" data-cy="tags">
           <%= for (index, articleTag) in article.ArticleTags { %>
           <li><a href="/?tag=<%= articleTag.Tag.Name %>" class="router-link-active tag-default tag-pill tag-outline"><%= articleTag.Tag.Name %></a></li>
           <% } %>

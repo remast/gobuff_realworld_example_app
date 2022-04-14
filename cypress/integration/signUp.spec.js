@@ -24,7 +24,7 @@ describe('Sign up page', () => {
 
     cy.getByDataCy('username-home')
       .should('contain', user.username);
-    cy.getByDataCy('register-alert')
+    cy.getByDataCy('alert')
       .should('contain', 'Welcome to RealWorld!');
   });
 

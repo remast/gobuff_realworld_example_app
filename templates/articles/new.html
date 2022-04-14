@@ -4,11 +4,11 @@
   
         <div class="col-md-10 offset-md-1 col-xs-12">
           <%= form_for(article, {action: newArticlesPath(), method: "POST"}) { %>
-            <%= f.InputTag("Title", {placeholder: "Article Title", class: "form-control-lg" }) %>
-            <%= f.InputTag("Description", {placeholder: "What's this article about?" }) %>
-            <%= f.TextArea("Body", {placeholder: "Write your article (in markdown)", rows: "8" }) %>
-            <%= f.InputTag("Tags", {placeholder: "Enter tags" }) %>
-            <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
+            <%= f.InputTag("Title", {placeholder: "Article Title", class: "form-control-lg", data-cy: "article-title" }) %>
+            <%= f.InputTag("Description", {placeholder: "What's this article about?", data-cy: "article-description" }) %>
+            <%= f.TextArea("Body", {placeholder: "Write your article (in markdown)", data-cy: "article-body", rows: "8" }) %>
+            <%= f.InputTag("Tags", {placeholder: "Enter tags", data-cy: "article-tag" }) %>
+            <button class="btn btn-lg pull-xs-right btn-primary" type="submit" data-cy="submit-article">
                 Publish Article
             </button>
           <% } %>

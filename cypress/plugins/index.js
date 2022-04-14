@@ -19,6 +19,7 @@
 
 const faker = require("faker");
 const { clear } = require("../../server/db");
+const { seed } = require("../../server/db");
 
 module.exports = (on, config) => {
   on("task", {
@@ -40,6 +41,11 @@ module.exports = (on, config) => {
     },
     'db:clear'() {
       clear();
+
+      return null;
+    },
+    'db:seed'() {
+      seed();
 
       return null;
     }

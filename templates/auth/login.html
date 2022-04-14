@@ -4,14 +4,14 @@
 
       <div class="col-md-6 offset-md-3 col-xs-12">
         <h1 class="text-xs-center">Sign in</h1>
-        <p class="text-xs-center">
+        <p class="text-xs-center" data-cy="redirect-sign-up">
           <%= linkTo(usersRegisterPath()){ %>Need an account?<% } %>
         </p>
 
         <%= form_for(user, {action: authPath()}) { %>
-          <%= f.InputTag("Email", {class:"form-control-lg", placeholder: "Email"}) %>
-          <%= f.InputTag("Password", {type: "password", class:"form-control-lg", placeholder: "Password"}) %>
-          <button class="btn btn-success">Sign In!</button>
+          <%= f.InputTag("Email", {class:"form-control-lg", placeholder: "Email", data-cy: "email-sign-in"}) %>
+          <%= f.InputTag("Password", {type: "password", class:"form-control-lg", placeholder: "Password", data-cy: "password-sign-in"}) %>
+          <button class="btn btn-success" data-cy="sign-in-submit">Sign In!</button>
         <% } %>
 
       </div>

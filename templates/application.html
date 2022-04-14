@@ -29,7 +29,7 @@
           </li>
           <%= if (current_user) { %>
           <li class="nav-item">
-            <%= linkTo(newArticlesPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> New Article<% } %>
+            <%= linkTo(newArticlesPath(), {class:"nav-link", data-cy: "new-article"}){ %><i class="ion-compose"></i> New Article<% } %>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">
@@ -40,7 +40,7 @@
             <%= linkTo(userProfilePath({user_email: current_user.Email}), {class:"nav-link", data-cy: "username-home"}){ %><%= current_user.Name %><% } %>
           </li>
           <li class="nav-item">
-            <%= linkTo(authLogoutPath(), {class:"nav-link"}){ %><i class="ion-compose"></i> Sign Out<% } %>
+            <%= linkTo(authLogoutPath(), {class:"nav-link", data-cy: "sign-out"}){ %><i class="ion-compose"></i> Sign Out<% } %>
           </li>
           <% } else { %>
           <li class="nav-item" data-cy="sign-in">

@@ -22,7 +22,7 @@
       <% } %>
       </div>
       <a href="<%= articlePath({slug: article.Slug}) %>" class="preview-link">
-        <h1><%= article.Title %></h1>
+        <h1 data-cy="article-title"><%= article.Title %></h1>
         <p><%= article.Description %></p>
         <span>Read more... </span>
         <ul class="tag-list">
