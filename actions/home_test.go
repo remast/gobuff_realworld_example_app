@@ -27,3 +27,14 @@ func (as *ActionSuite) Test_HomeHandler_LoggedIn() {
 	// Assert
 	as.Equal(302, res.Code)
 }
+
+func (as *ActionSuite) Test_HealthCheckHandler() {
+	// Arrange
+
+	// Act
+	res := as.HTML("/healthcheck").Get()
+
+	// Assert
+	as.Equal(200, res.Code)
+	as.Contains(res.Body.String(), "ok")
+}

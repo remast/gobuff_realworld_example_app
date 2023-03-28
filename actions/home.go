@@ -44,3 +44,7 @@ func HomeHandler(c buffalo.Context) error {
 
 	return c.Render(200, r.HTML("index.html"))
 }
+
+func HealthCheckHandler(c buffalo.Context) error {
+	return c.Render(200, r.JSON(map[string]string{"status": "ok"}))
+}
